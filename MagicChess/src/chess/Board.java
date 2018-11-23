@@ -15,6 +15,11 @@ public class Board {
 		
 	}
 	
-	
+	public Piece checkSquare(int x, int y) {
+		
+		Piece pieza = boxes[x][y].getPiece();
+		
+		return pieza;
+	}
 	
 }
