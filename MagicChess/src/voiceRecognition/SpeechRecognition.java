@@ -23,7 +23,7 @@ public static void main(String... args) throws Exception {
  try (SpeechClient speechClient = SpeechClient.create()) {
 
    // The path to the audio file to transcribe
-   String fileName = "/home/alex/Escritorio/audio.ogg";
+   String fileName = "/home/alex/Escritorio/audio2.ogg";
 
    // Reads the audio file into memory
    Path path = Paths.get(fileName);
