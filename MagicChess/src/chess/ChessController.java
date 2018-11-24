@@ -1,19 +1,19 @@
 package chess;
 
-/**
- * This class receives orders 
- * @author alex
- *
- */
+import arduino.ArduinoController;
+
 public class ChessController {
+	private Board board;
 	
 	private static ChessController instance;
+	private ArduinoController arduinoController;
 	
-	/**
-	 * Singleton
-	 * @return a unique instance of ChessController
-	 */
-	public static  ChessController getController() {
+	public ChessController() {
+		this.board=new Board();
+		this.board.createPieces();
+	}
+	
+	public static ChessController getInstance() {
 		if(instance==null) {
 			instance=new ChessController();
 		}
@@ -21,14 +21,10 @@ public class ChessController {
 		return instance;
 	}
 	
-	/**
-	 * Moves a piece from (fromX, fromY) to (toX, toY)
-	 * @param fromX x origin coordinate
-	 * @param fromY y origin coordinate
-	 * @param toX x destination coordinate
-	 * @param toY y destination coordinate
-	 */
-	public void move(int fromX, int fromY, int toX, int toY) {
-		
+	public void move(int originX, int originY, int destX, int destY) {
+		// 1. Check if movement is valid
+		// 2. If its valid update the board
+		/* 3. Then call Arduino controller and perform the movement :
+		this.arduinoController.move(originX, originY, destX, destY) */
 	}
 }
