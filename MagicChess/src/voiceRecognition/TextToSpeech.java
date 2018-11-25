@@ -1,4 +1,4 @@
-package voice;
+package voiceRecognition;
 
 // Imports the Google Cloud client library
 import com.google.cloud.texttospeech.v1.AudioConfig;
