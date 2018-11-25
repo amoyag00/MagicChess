@@ -17,8 +17,8 @@ public class Prueba {
 		//System.out.println(arduino.serialRead());
 		//serialWrite is an overridden method, allowing both characters and strings.
 		//arduino.serialWrite('1', 20); //its second parameter even allows delays. more deta*/
-		//ArduinoController.getInstance().move(6,2,3,5);
-		VoiceController.getInstance();
+		ArduinoController.getInstance().capturePiece("b", 3, 4, 2, 3);
+		//VoiceController.getInstance();
 	}
 	
 }
