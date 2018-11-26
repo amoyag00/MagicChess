@@ -33,6 +33,12 @@ import com.google.protobuf.ByteString;
 
 public class StreamingVoiceRecognition {
 	/** Performs microphone streaming speech recognition with a duration of 1 minute. */
+	private VoiceController controller;
+	
+	public StreamingVoiceRecognition() {
+		controller=VoiceController.getInstance();
+	}
+	
 	public static void streamingMicRecognize() throws Exception {
 
 	  ResponseObserver<StreamingRecognizeResponse> responseObserver = null;
@@ -48,6 +54,7 @@ public class StreamingVoiceRecognition {
 	        	  responses.add(response);
 		           StreamingRecognitionResult result = response.getResultsList().get(0);
 		           SpeechRecognitionAlternative alternative = result.getAlternativesList().get(0);
+		           controller.parse(alternative.getTranscript());
 		           System.out.printf("Transcript : %s\n", alternative.getTranscript());
 	          }
 

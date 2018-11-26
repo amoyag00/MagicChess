@@ -116,7 +116,7 @@ public class ArduinoController {
 	 * Uses the servomotor to rise the magnet and grab the piece
 	 */
 	public void grab() {
-		String command="";
+		String command="M280 P0 S180";
 		serialWrite(command);
 	}
 	
@@ -124,7 +124,7 @@ public class ArduinoController {
 	 * Uses the servomotor to releases the piece grabbed with the magnet.
 	 */
 	public void release() {
-		String command="";
+		String command="M280 P0 S0";
 		serialWrite(command);
 	}
 	
