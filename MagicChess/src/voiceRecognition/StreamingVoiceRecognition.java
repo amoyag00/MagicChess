@@ -33,7 +33,7 @@ import com.google.protobuf.ByteString;
 
 public class StreamingVoiceRecognition {
 	/** Performs microphone streaming speech recognition with a duration of 1 minute. */
-	private VoiceController controller;
+	private static VoiceController controller;
 	
 	public StreamingVoiceRecognition() {
 		controller=VoiceController.getInstance();
