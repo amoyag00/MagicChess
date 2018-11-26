@@ -51,10 +51,11 @@ public class StreamingVoiceRecognition {
 	          public void onStart(StreamController controller) {}
 
 	          public void onResponse(StreamingRecognizeResponse response) {
-	        	  responses.add(response);
+	        	   responses.add(response);
 		           StreamingRecognitionResult result = response.getResultsList().get(0);
 		           SpeechRecognitionAlternative alternative = result.getAlternativesList().get(0);
-		           controller.parse(alternative.getTranscript());
+		           Thread t = new Thread(new Dispatcher(alternative.getTranscript().toString()));
+		           t.start();
 		           System.out.printf("Transcript : %s\n", alternative.getTranscript());
 	          }
 

@@ -13,46 +13,33 @@ import chess.ChessController;
  */
 public class VoiceController {
 	private static VoiceController instance;
-	private Map<String,String> dictionary;
 	private ChessController chessController;
+	private Map<String,String> radioAlphabet;
+	private final int SIZE=8;
 	private int originX;
 	private int originY;
 	private int destX;
 	private int destY;
-	private boolean originSet;
+	private int index;
 	
 	public VoiceController() {
-		String letters[] = new String []{"alfa", "bravo", "charli","delta","eco","foxtrot","golf","hotel"};
-		String numbers[] = new String [] {"uno", "dos", "tres", "cuatro", "cinco", "seis", "siete", "ocho"};
-		this.dictionary=new HashMap();
+		String letters[] = new String []{"alfa","alpha", "bravo", "charlie","delta","eco","echo","foxtrot","golf","hotel"};
+		String radioWordTranslated="";
+		
+		this.index=this.originX=this.originY=this.destX=this.destY=-1;
+		this.radioAlphabet=new HashMap();
 		this.chessController=ChessController.getInstance();
-		this.originSet=false;
-		
-		for(int i=0;i<letters.length;i++) {
-			for(int j=0;j<numbers.length;j++) {
-				this.dictionary.put(letters[i]+" "+numbers[j], (i+1) +","+ (j+1) );
-			}
-		}
-		
-		/*this.dictionary.put("alfa", "1");
-		this.dictionary.put("bravo", "2");
-		this.dictionary.put("charli", "3");
-		this.dictionary.put("delta", "4");
-		this.dictionary.put("eco", "5");
-		this.dictionary.put("foxtrot", "6");
-		this.dictionary.put("golf", "7");
-		this.dictionary.put("hotel", "8");
-		
-		this.dictionary.put("uno", "1");
-		this.dictionary.put("dos", "2");
-		this.dictionary.put("tres", "3");
-		this.dictionary.put("cuatro", "4");
-		this.dictionary.put("cinco", "5");
-		this.dictionary.put("seis", "6");
-		this.dictionary.put("siete", "7");
-		this.dictionary.put("ocho", "8");*/
-		
-		
+
+		this.radioAlphabet.put("alfa", "1");
+		this.radioAlphabet.put("alpha", "1");
+		this.radioAlphabet.put("bravo", "2");
+		this.radioAlphabet.put("charlie", "3");
+		this.radioAlphabet.put("delta", "4");
+		this.radioAlphabet.put("eco", "5");
+		this.radioAlphabet.put("echo", "5");
+		this.radioAlphabet.put("foxtrot", "6");
+		this.radioAlphabet.put("golf", "7");
+		this.radioAlphabet.put("hotel", "8");	
 	}
 	
 	/**
@@ -70,35 +57,112 @@ public class VoiceController {
 	 * Parses strings which can contain a command
 	 * @param word
 	 */
-	public void parse(String possibleCommand) {
+	public String parse(String possibleCommand) {
 		possibleCommand=possibleCommand.toLowerCase();
 		String translation="";
-		if(this.dictionary.containsKey(possibleCommand)) {
-			translation=this.dictionary.get(possibleCommand);
-			if(!originSet) {
-				this.originX=Integer.valueOf(translation.split(",")[0]);
-				this.originY=Integer.valueOf(translation.split(",")[1]);
-				this.originSet=true;
-			}else {
-				this.destX=Integer.valueOf(translation.split(",")[0]);
-				this.destY=Integer.valueOf(translation.split(",")[1]);
-				this.chessController.move(this.originX,this.originY,this.destX,this.destY);
-				this.originSet=false;
+		String words []=possibleCommand.split(" ");
+		String command="notACommand";//Used only for testing
+		if(findOriginX(words)) {
+			if(findOriginY(words)) {
+				if(findDestX(words)) {
+					if(findDestY(words)) {
+						this.chessController.move(this.originX, this.originY, this.destX, this.destY);
+						command=this.originX+","+this.originY+","+ this.destX+","+ this.destY;
+					}
+				}
 			}
 		}
+		return command;
+	}
+	
+	/**
+	 * Finds a word from the radio alphabet (alpha,bravo,charlie...) and translates it to
+	 * a numeric coordinate
+	 * @param words
+	 * @return true if found, false otherwise
+	 */
+	public boolean findOriginX(String [] words) {
+		boolean found=false;
+		for(int i=0;i<words.length;i++){
+			if(this.radioAlphabet.containsKey(words[i])) {
+				this.originX=Integer.valueOf(this.radioAlphabet.get(words[i]));
+				this.index= i+1;
+				found=true;
+				break;
+			}
+		}
+		return found;
 	}
 	
 	
 	/**
-	 * Translates from spoken language to numeric language where boxes are identified by 
-	 * coordinates.
-	 * @param SpokenWord
-	 * @return
+	 * Checks if the next word is a number from 1 to 8, both included.
+	 * a numeric coordinate
+	 * @param words
+	 * @return true if it is, false otherwise
 	 */
-	public String translate(String SpokenWord) {
-		String translation=this.dictionary.get(SpokenWord);
-		return translation;
+	public boolean findOriginY(String [] words) {
+		boolean found=false;
+		if(words[this.index].matches("^([1-8])$")) {
+			this.originY=Integer.valueOf(words[this.index]);
+			found=true;
+			this.index++;
+		}else {
+			found=false;
+			this.originX=-1;
+		}
+		return found;
 	}
+	
+	
+	/**
+	 * Finds a word from the radio alphabet (alpha,bravo,charlie...) and translates it to
+	 * a numeric coordinate
+	 * @param words
+	 * @return true if found, false otherwise
+	 */
+	public boolean findDestX(String [] words) {
+		boolean found=false;
+		for(int i=this.index;i<words.length;i++){
+			if(this.radioAlphabet.containsKey(words[i])) {
+				this.destX=Integer.valueOf(this.radioAlphabet.get(words[i]));
+				this.index= i+1;
+				found=true;
+				break;
+			}
+		}
+		if(!found) {
+			this.originX=-1;
+			this.originY=-1;
+		}
+		return found;
+	}
+	
+	/**
+	 * Checks if the next word is a number from 1 to 8, both included.
+	 * a numeric coordinate
+	 * @param words
+	 * @return true if it is, false otherwise
+	 */
+	public boolean findDestY(String [] words) {
+		boolean found=false;
+		if(words[this.index].matches("^([1-8])$")) {
+			this.destY=Integer.valueOf(words[this.index]);
+			found=true;
+			this.index=-1;
+		}else {
+			found=false;
+			this.originX=-1;
+			this.originY=-1;
+			this.destX=-1;
+		}
+		return found;
+	}
+	
+	
+	
+	
+	
 	
 	
 }

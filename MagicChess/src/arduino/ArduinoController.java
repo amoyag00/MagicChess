@@ -57,9 +57,9 @@ public class ArduinoController {
 	 */
 	public void move(int fromX, int fromY, int toX, int toY) {
 		moveWithoutPiece(fromX, fromY);
-		//grab();
+		grab();
 		moveWithPiece(toX,toY);
-		//release();
+		release();
 		
 	}
 	
@@ -161,24 +161,24 @@ public class ArduinoController {
 		if(color.equals("w")) {
 			//Move king
 			moveWithoutPiece(5, 1);
-			//grab();
+			grab();
 			moveWithPiece(7,1);
-			//release()
+			release();
 			
 			//Move rook
 			moveWithoutPiece(8,1);
-			//grab();
+			grab();
 			moveWithPiece(6,1);
 		}else if(color.equals("b")) {
 			//Move king
 			moveWithoutPiece(5, 8);
-			//grab();
+			grab();
 			moveWithPiece(7,8);
-			//release()
+			release();
 			
 			//Move rook
 			moveWithoutPiece(8,8);
-			//grab();
+			grab();
 			moveWithPiece(6,8);
 		}
 	}
@@ -191,24 +191,24 @@ public class ArduinoController {
 		if(color.equals("w")) {
 			//Move king
 			moveWithoutPiece(5, 1);
-			//grab();
+			grab();
 			moveWithPiece(3,1);
-			//release()
+			release();
 			
 			//Move rook
 			moveWithoutPiece(1,1);
-			//grab();
+			grab();
 			moveWithPiece(4,1);
 		}else if(color.equals("b")) {
 			//Move king
 			moveWithoutPiece(5, 8);
-			//grab();
+			grab();
 			moveWithPiece(3,8);
-			//release()
+			release();
 			
 			//Move rook
 			moveWithoutPiece(1,8);
-			//grab();
+			grab();
 			moveWithPiece(4,8);
 		}
 		
@@ -231,7 +231,7 @@ public class ArduinoController {
 		String command4="";//move X in the captured section
 		
 		moveWithoutPiece(x, y);
-		//grab();
+		grab();
 		
 		
 		if(color.equals("w")) {
@@ -271,7 +271,7 @@ public class ArduinoController {
 		serialWrite(command2);
 		serialWrite(command3);
 		serialWrite(command4);
-		//release();
+		release();
 		moveToBoardOrigin();
 			
 	}

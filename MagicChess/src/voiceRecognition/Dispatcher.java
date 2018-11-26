@@ -7,9 +7,13 @@ public class Dispatcher extends Thread {
 	private String possibleCommand="";
 	
 	public Dispatcher(String possibleCommand) {
+		this.possibleCommand=possibleCommand;
 		controller=VoiceController.getInstance();
 	}
 	
+	/**
+	 * Dispatches a request which may contain a command
+	 */
 	public synchronized void dispatch() {
 		controller.parse(this.possibleCommand);
 	}
