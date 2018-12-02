@@ -20,9 +20,10 @@ public class ArduinoController {
 	
 
 	public ArduinoController() {
-		//this.connect();
+		this.connect();
 		this.currentX=1;
 		this.currentY=1;
+		moveToOrigin();
 	}
 	
 	/**
@@ -149,7 +150,7 @@ public class ArduinoController {
 	 * @param command
 	 */
 	public void serialWrite(String command) {
-		//this.arduino.serialWrite(command);
+		this.arduino.serialWrite(command+"\n");
 		System.out.println(command);
 	}
 	

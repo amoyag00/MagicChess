@@ -59,6 +59,7 @@ public class VoiceController {
 	 */
 	public String parse(String possibleCommand) {
 		possibleCommand=possibleCommand.toLowerCase();
+		
 		String translation="";
 		String words []=possibleCommand.split(" ");
 		String command="notACommand";//Used only for testing

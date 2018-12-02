@@ -30,8 +30,8 @@ public class ChessController {
 		//TODO
 		// 1. Check if movement is valid
 		// 2. If its valid update the board
-		/* 3. Then call Arduino controller and perform the movement :
-		this.arduinoController.move(originX, originY, destX, destY);*/
+		/* 3. Then call Arduino controller and perform the movement :*/
+		this.arduinoController.move(originX, originY, destX, destY);
 		/* 3.1. If a piece will be captured call 
 		this.arduinoController.capturePiece(color,destX,destY,
 		board.getCapturedX(color),board.getCapturedY(color) */

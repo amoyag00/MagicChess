@@ -8,11 +8,11 @@ public class Bishop extends Piece {
 		
 		boolean restrict = false;
 		
-		if(this.coordinates[0] == newX || this.coordinates[1] == newY) {
+		if(this.x == newX || this.y == newY) {
 			restrict = true;
 		}
-		else if(this.coordinates[0] < newX && this.coordinates[1] < newY) {
-			for(int i = this.coordinates[0], j = this.coordinates[1]; (i <= newX && j <= newY);
+		else if(this.x < newX && this.y < newY) {
+			for(int i = this.x + 1, j = this.y + 1; (i < newX && j < newY);
 					i++, j++) {
 				if(board.checkSquare(i, j) instanceof Piece) {
 					restrict = true;
@@ -20,8 +20,8 @@ public class Bishop extends Piece {
 				}
 			}
 		}
-		else if(this.coordinates[0] > newX && this.coordinates[1] < newY) {
-			for(int i = this.coordinates[0], j = this.coordinates[1]; (i >= newX && j <= newY);
+		else if(this.x > newX && this.y < newY) {
+			for(int i = this.x - 1, j = this.y + 1; (i > newX && j < newY);
 					i--, j++) {
 				if(board.checkSquare(i, j) instanceof Piece) {
 					restrict = true;
@@ -29,8 +29,8 @@ public class Bishop extends Piece {
 				}
 			}
 		}
-		else if(this.coordinates[0] < newX && this.coordinates[1] > newY) {
-			for(int i = this.coordinates[0], j = this.coordinates[1]; (i <= newX && j >= newY);
+		else if(this.x < newX && this.y > newY) {
+			for(int i = this.x + 1, j = this.y - 1; (i < newX && j > newY);
 					i++, j--) {
 				if(board.checkSquare(i, j) instanceof Piece) {
 					restrict = true;
@@ -38,14 +38,18 @@ public class Bishop extends Piece {
 				}
 			}
 		}
-		else if(this.coordinates[0] > newX && this.coordinates[1] > newY) {
-			for(int i = this.coordinates[0], j = this.coordinates[1]; (i >= newX && j >= newY);
+		else if(this.x > newX && this.y > newY) {
+			for(int i = this.x - 1, j = this.y - 1; (i > newX && j > newY);
 					i--, j--) {
 				if(board.checkSquare(i, j) instanceof Piece) {
 					restrict = true;
 					break;
 				}
 			}
+		}
+		
+		if(!restrict && board.checkSquare(newX, newY).getColor() == this.getColor()) {
+			restrict = true;
 		}
 		
 		return restrict;
