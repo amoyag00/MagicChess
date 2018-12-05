@@ -2,9 +2,9 @@ package chess;
 
 public class Piece {
 	
-	int[] coordinates = new int[2];
-	
-	char color;
+	public int x;
+	public int y;
+	public char color;
 
 	public void Piece() {}
 	
