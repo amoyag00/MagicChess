@@ -1,5 +1,17 @@
 package arduino;
 
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStream;
+
+
+import gnu.io.CommPort;
+import gnu.io.CommPortIdentifier;
+import gnu.io.NoSuchPortException;
+import gnu.io.PortInUseException;
+import gnu.io.SerialPort;
+import gnu.io.UnsupportedCommOperationException;
+
 /**
  * This class receives orders 
  * @author alex
@@ -8,7 +20,7 @@ package arduino;
 public class ArduinoController {
 	
 	private static ArduinoController instance;
-	private final String portName="ttyUSB0";
+	private final String portName="/dev/ttyUSB0";
 	private final int BAUD_RATE=115200;
 	private Arduino arduino;
 	private int SIZE=8; //board number of squares
@@ -20,11 +32,16 @@ public class ArduinoController {
 	
 
 	public ArduinoController() {
+		this.arduino=new Arduino(this.portName,this.BAUD_RATE);
 		this.connect();
 		this.currentX=1;
 		this.currentY=1;
 		moveToOrigin();
+		serialWrite("G91"); //Movements are relative to the last position
+		//serialWrite("M220 S100");//Setting speed
 	}
+	
+
 	
 	/**
 	 * Singleton
@@ -44,9 +61,8 @@ public class ArduinoController {
 	 * Stablishes a serial connection with arduino.
 	 * @return true if the connection was made, false otherwise.
 	 */
-	public boolean connect() {
-		this.arduino = new Arduino(this.portName, this.BAUD_RATE);
-		return arduino.openConnection();
+	public void connect() {
+		this.arduino.openConnection();
 	}
 	
 	/**
@@ -58,8 +74,11 @@ public class ArduinoController {
 	 */
 	public void move(int fromX, int fromY, int toX, int toY) {
 		moveWithoutPiece(fromX, fromY);
+		delay();
 		grab();
+		delay();
 		moveWithPiece(toX,toY);
+		delay();
 		release();
 		
 	}
@@ -117,15 +136,19 @@ public class ArduinoController {
 	 * Uses the servomotor to rise the magnet and grab the piece
 	 */
 	public void grab() {
-		String command="M280 P0 S180";
-		serialWrite(command);
+		String command1="M280 P0 S0";
+		String wait="M400"; //Makes arduino wait for the previous buffered commands to finish
+		serialWrite(wait);
+		serialWrite(command1);
 	}
 	
 	/**
 	 * Uses the servomotor to releases the piece grabbed with the magnet.
 	 */
 	public void release() {
-		String command="M280 P0 S0";
+		String command="M280 P0 S180";
+		String wait="M400"; //Makes arduino wait for the previous buffered commands to finish
+		serialWrite(wait);
 		serialWrite(command);
 	}
 	
@@ -142,17 +165,14 @@ public class ArduinoController {
 	 * Moves to the origin of the plotter on all axis. Different from the origin of the board.
 	 */
 	public void moveToOrigin() {
+		try {
+			Thread.sleep(3000);
+		} catch (InterruptedException e) {
+			e.printStackTrace();
+		}
 		serialWrite("G28");
 	}
 	
-	/**
-	 * Writes a command in the USB serial connection.
-	 * @param command
-	 */
-	public void serialWrite(String command) {
-		this.arduino.serialWrite(command+"\n");
-		System.out.println(command);
-	}
 	
 	/**
 	 * performs a short castling
@@ -232,8 +252,9 @@ public class ArduinoController {
 		String command4="";//move X in the captured section
 		
 		moveWithoutPiece(x, y);
+		delay();
 		grab();
-		
+		delay();
 		
 		if(color.equals("w")) {
 			command1="G1 Y"+this.SQUARE_MM/2;
@@ -272,8 +293,29 @@ public class ArduinoController {
 		serialWrite(command2);
 		serialWrite(command3);
 		serialWrite(command4);
+		delay();
 		release();
+		delay();
 		moveToBoardOrigin();
 			
 	}
+	
+	/**
+	 * Writes the command into arduino through serial USB port
+	 * @param command
+	 */
+	public void serialWrite(String command) {
+		this.arduino.serialWrite(command+"\n");
+		System.out.println(command);
+	}
+	
+	/**
+	 * Introduces a small delay of 500ms
+	 */
+	public void delay() {
+		String delay="G4 P500";
+		this.serialWrite(delay);
+	}
+	
+	
 }
