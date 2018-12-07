@@ -11,7 +11,9 @@ class KnightTest {
 		Knight k=new Knight();
 		k.x=2;
 		k.y=2;
-		assertTrue(!k.isRestricted(3, 4));
+		assertFalse(k.isRestricted(3, 4));
+		assertTrue(k.isRestricted(3, 5));
+		assertTrue(k.isRestricted(1, 6));
 	}
 
 }

@@ -11,6 +11,9 @@ public class Bishop extends Piece {
 		if(this.x == newX || this.y == newY) {
 			restrict = true;
 		}
+		else if(Math.abs(this.x - newX) != Math.abs(this.y - newY)) {
+			restrict = true;
+		}
 		else if(this.x < newX && this.y < newY) {
 			for(int i = this.x + 1, j = this.y + 1; (i < newX && j < newY);
 					i++, j++) {
@@ -48,9 +51,9 @@ public class Bishop extends Piece {
 			}
 		}
 		
-		if(!restrict && board.checkSquare(newX, newY).getColor() == this.getColor()) {
+		/*if(!restrict && board.checkSquare(newX, newY).getColor() == this.getColor()) {
 			restrict = true;
-		}
+		}*/
 		
 		return restrict;
 	}
