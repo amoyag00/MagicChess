@@ -15,48 +15,65 @@ public class Pawn extends Piece {
 
 		if (color == 'w') {
 			
-			if ((this.coordinates[1] - newY) < (-1) && this.coordinates[1] != 1) {
+			if ((this.y - newY) < (-1) && this.y != 1) {
 				
-				if ((this.coordinates[1] - newY)<(-2)) {
+				if ((this.y - newY)<(-2)) {
 					
 					restrict = true;
 				}
-				
-			}else if ((this.coordinates[1] - newY) > 0) {
+				if(tablero.checkSquare(newX, newY)!=null) {
+					restrict=true;
+				}
+			}else if ((this.y - newY) > 0) {
 				
 				restrict = true;
 			}
 			
 			//Comprueba cuando come
-			if(newX!=this.coordinates[0]) {
+			if(newX!=this.x) {
 				
-				if(Math.abs(this.coordinates[0]-newX)<2) {
+				if(Math.abs(this.x-newX)<2) {
 					restrict = true;
 				}else {
-					//TODO Comprobar que la casilla no isEmpty()
+					if(tablero.checkSquare(newX, newY)!=null) {
+						if(tablero.checkSquare(newX, newY).getColor()==this.color) {
+							restrict=true;
+						}
+					}else {
+						restrict=true;
+					}
 				}
 				
 			}
 			
 		} else {
-			if ((this.coordinates[1] - newY) > (1) && this.coordinates[1] != 6) {
+			if ((this.y - newY) > (1) && this.y != 6) {
 				
-				if ((this.coordinates[1] - newY)>2) {
+				if ((this.y - newY)>2) {
 					
 					restrict = true;
 				}
+				if(tablero.checkSquare(newX, newY)!=null) {
+					restrict=true;
+				}
 				
-			}else if ((this.coordinates[1] - newY) < 0) {
+			}else if ((this.y - newY) < 0) {
 				
 				restrict = true;
 			}
 			//Comprueba cuando come
-			if(newX!=this.coordinates[0]) {
+			if(newX!=this.x) {
 				
-				if(Math.abs(this.coordinates[0]-newX)<2) {
+				if(Math.abs(this.x-newX)<2) {
 					restrict = true;
 				}else {
-					//TODO Comprobar que la casilla no isEmpty()
+					if(tablero.checkSquare(newX, newY)!=null) {
+						if(tablero.checkSquare(newX, newY).getColor()==this.color) {
+							restrict=true;
+						}
+					}else {
+						restrict=true;
+					}
 				}
 				
 			}

@@ -1,8 +1,13 @@
 package chess;
 
 public class Board {
+	
+	private static Board instance;
+
 	private static final int SIZE=8;
 	private Square squares [][];
+
+
 	private int whiteCapturedX;
 	private int whiteCapturedY;
 	private int blackCapturedX;
@@ -20,8 +25,26 @@ public class Board {
 		
 	}
 	
+	
+	/**
+	 * Singleton pattern
+	 * @return a unique instance
+	 */
+	public static Board getInstance() {
+		if(instance==null) {
+			instance=new Board();
+		}
+		
+		return instance;
+	}
+	
+	public static int getSize() {
+		return SIZE;
+	}
+
+
 	public Piece checkSquare(int x, int y) {
-		Piece piece = squares[x][y].getPiece();
+		Piece piece = squares[x-1][y-1].getPiece();
 		return piece;
 	}
 	
@@ -31,6 +54,15 @@ public class Board {
 	 */
 	public void createPieces() {
 		
+	}
+	
+	public Square getSquare(int x, int y) {
+		return squares[x-1][y-1];
+	}
+
+
+	public void setSquare(Square square,int x, int y) {
+		this.squares[x-1][y-1] = square;
 	}
 	
 	/**
