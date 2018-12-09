@@ -2,6 +2,7 @@ import static org.junit.jupiter.api.Assertions.*;
 
 import org.junit.jupiter.api.Test;
 
+import chess.Board;
 import chess.Pawn;
 import chess.Piece;
 
@@ -10,28 +11,110 @@ class PawnTest {
 	@Test
 	void testIsRestrictedSamePosition() {
 		Pawn pawn = new Pawn();
-		int coordinates[]= new int [2];
-		coordinates[0]=3;
-		coordinates[1]=3;
+		pawn.x=3;
+		pawn.y=3;
 		assertTrue(pawn.isRestricted(3,3));
 	}
 	
 	@Test
 	void testIsRestrictedCaptureRight() {
-		Pawn pawn = new Pawn();
-		int coordinates[]= new int [2];
-		coordinates[0]=2;
-		coordinates[1]=3;
-		assertTrue(!pawn.isRestricted(3,4));
+		Board board=new Board();
+		Pawn pawnW = new Pawn();
+		pawnW.x=2;
+		pawnW.y=3;
+		pawnW.setColor('w');
+		
+		Pawn pawnB=new Pawn();
+		pawnB.x=3;
+		pawnB.y=4;
+		pawnB.setColor('b');
+		
+		board.getSquare(2, 3).setPiece(pawnW);
+		board.getSquare(3, 4).setPiece(pawnB);
+		assertTrue(!pawnW.isRestricted(3,4));
 	}
 	
 	@Test
 	void testIsRestrictedCaptureLeft() {
-		Pawn pawn = new Pawn();
-		int coordinates[]= new int [2];
-		coordinates[0]=1;
-		coordinates[1]=3;
-		assertTrue(!pawn.isRestricted(1,4));
+		Board board=new Board();
+		Pawn pawnW = new Pawn();
+		pawnW.x=2;
+		pawnW.y=3;
+		pawnW.setColor('w');
+		
+		Pawn pawnB=new Pawn();
+		pawnB.x=1;
+		pawnB.y=4;
+		pawnB.setColor('b');
+		
+		board.getSquare(2, 3).setPiece(pawnW);
+		board.getSquare(1, 4).setPiece(pawnB);
+		assertTrue(!pawnW.isRestricted(1,4));
+	}
+	
+	@Test
+	void testFirstMove2Squares() {
+		Board board=new Board();
+		Pawn pawnW = new Pawn();
+		pawnW.x=2;
+		pawnW.y=2;
+		pawnW.setColor('w');
+		assertTrue(!pawnW.isRestricted(2,4));
+	}
+	
+	@Test
+	void testSecondMove2Squares() {
+		Board board=new Board();
+		Pawn pawnW = new Pawn();
+		pawnW.x=2;
+		pawnW.y=3;
+		pawnW.setColor('w');
+		assertTrue(pawnW.isRestricted(2,5));
+	}
+	
+	@Test
+	void testEat2Squares() {
+		Board board=new Board();
+		Pawn pawnW = new Pawn();
+		pawnW.x=2;
+		pawnW.y=2;
+		pawnW.setColor('w');
+		
+		Pawn pawnB=new Pawn();
+		pawnB.x=3;
+		pawnB.y=4;
+		pawnB.setColor('b');
+		
+		board.getSquare(2, 2).setPiece(pawnW);
+		board.getSquare(4, 4).setPiece(pawnB);
+		assertTrue(pawnW.isRestricted(4,4));
+	}
+	
+	@Test
+	void testMoveBackwards() {
+		Board board=new Board();
+		Pawn pawnW = new Pawn();
+		pawnW.x=2;
+		pawnW.y=3;
+		pawnW.setColor('w');
+		assertTrue(pawnW.isRestricted(2,2));
+	}
+	@Test
+	void testMove2SquaresInX() {
+		Board board=new Board();
+		Pawn pawnW = new Pawn();
+		pawnW.x=2;
+		pawnW.y=2;
+		pawnW.setColor('w');
+		
+		Pawn pawnB = new Pawn();
+		pawnB.x=4;
+		pawnB.y=2;
+		pawnB.setColor('b');
+		
+		board.getSquare(2, 2).setPiece(pawnW);
+		board.getSquare(4, 2).setPiece(pawnB);
+		assertTrue(pawnW.isRestricted(4,2));
 	}
 
 }
