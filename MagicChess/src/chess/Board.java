@@ -53,7 +53,55 @@ public class Board {
 	 * 
 	 */
 	public void createPieces() {
+		//Creating white pieces
+		Rook leftRookW=new Rook();
+		Rook rightRookW=new Rook();
+		Bishop leftBishopW=new Bishop();
+		Bishop rightBishopW=new Bishop();
+		Knight leftKnightW=new Knight();
+		Knight rightKnightW=new Knight();
+		Queen queenW=new Queen();
+		King kingW=new King();
 		
+		for(int i=0;i<this.SIZE;i++) {
+			Pawn pawnW=new Pawn();
+			pawnW.color='w';
+			this.squares[1][i].setPiece(pawnW);
+		}
+		
+		this.squares[0][0].setPiece(leftRookW);
+		this.squares[0][1].setPiece(leftKnightW);
+		this.squares[0][2].setPiece(leftBishopW);
+		this.squares[0][3].setPiece(kingW);
+		this.squares[0][4].setPiece(queenW);
+		this.squares[0][5].setPiece(rightBishopW);
+		this.squares[0][6].setPiece(rightKnightW);
+		this.squares[0][7].setPiece(rightRookW);
+		
+		//Creating black pieces
+		Rook leftRookB=new Rook();
+		Rook rightRookB=new Rook();
+		Bishop leftBishopB=new Bishop();
+		Bishop rightBishopB=new Bishop();
+		Knight leftKnightB=new Knight();
+		Knight rightKnightB=new Knight();
+		Queen queenB=new Queen();
+		King kingB=new King();
+		
+		for(int i=0;i<this.SIZE;i++) {
+			Pawn pawnB=new Pawn();
+			pawnB.color='b';
+			this.squares[6][i].setPiece(pawnB);
+		}
+		
+		this.squares[7][0].setPiece(leftRookB);
+		this.squares[7][1].setPiece(leftKnightB);
+		this.squares[7][2].setPiece(leftBishopB);
+		this.squares[7][3].setPiece(kingB);
+		this.squares[7][4].setPiece(queenB);
+		this.squares[7][5].setPiece(rightBishopB);
+		this.squares[7][6].setPiece(rightKnightB);
+		this.squares[7][7].setPiece(rightRookB);
 	}
 	
 	public Square getSquare(int x, int y) {
@@ -115,6 +163,26 @@ public class Board {
 				this.blackCapturedX++;
 			}
 		}
+	}
+	
+	public boolean casteling(String direction, String color) {
+		boolean restricted=false;
+		if(color.equals("w") && direction.equals("left") && !this.squares[3][0].isEmpty()) {
+			if (this.squares[3][0].getPiece() instanceof King && this.squares[7][0].getPiece() instanceof Rook) {
+				King kingW=(King)this.squares[3][0].getPiece();
+				Rook rookW=(Rook)this.squares[7][0].getPiece();
+				if(kingW.isMoved() || rookW.isMoved() ) {
+					restricted=true;
+				}
+		}else if(direction.equals("right")) {
+				
+			}
+		}else if(color.equals("b")) {
+			
+		}
+		
+		return resitricted
+		
 	}
 	
 }

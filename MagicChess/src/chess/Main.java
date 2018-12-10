@@ -19,9 +19,9 @@ public class Main {
 		arduino.serialWrite("M400\n");
 		arduino.serialWrite("M280 P0 S0\n");*/
 		
-		
+		System.out.println("hola");
 		ArduinoController controller=new ArduinoController();
-		controller.move(4, 4, 2, 1);
+		controller.move(3, 4, 2, 1);
 		
 		
 		//System.out.println(arduino.serialRead());

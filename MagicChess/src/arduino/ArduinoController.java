@@ -136,7 +136,7 @@ public class ArduinoController {
 	 * Uses the servomotor to rise the magnet and grab the piece
 	 */
 	public void grab() {
-		String command1="M280 P0 S0";
+		String command1="M280 P1 S180";
 		String wait="M400"; //Makes arduino wait for the previous buffered commands to finish
 		serialWrite(wait);
 		serialWrite(command1);
@@ -146,7 +146,7 @@ public class ArduinoController {
 	 * Uses the servomotor to releases the piece grabbed with the magnet.
 	 */
 	public void release() {
-		String command="M280 P0 S180";
+		String command="M280 P1 S0";
 		String wait="M400"; //Makes arduino wait for the previous buffered commands to finish
 		serialWrite(wait);
 		serialWrite(command);
@@ -305,8 +305,9 @@ public class ArduinoController {
 	 * @param command
 	 */
 	public void serialWrite(String command) {
-		this.arduino.serialWrite(command+"\n");
 		System.out.println(command);
+		this.arduino.serialWrite(command+"\n");
+		
 	}
 	
 	/**
