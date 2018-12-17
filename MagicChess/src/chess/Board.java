@@ -72,8 +72,8 @@ public class Board {
 		this.squares[0][0].setPiece(leftRookW);
 		this.squares[0][1].setPiece(leftKnightW);
 		this.squares[0][2].setPiece(leftBishopW);
-		this.squares[0][3].setPiece(kingW);
-		this.squares[0][4].setPiece(queenW);
+		this.squares[0][3].setPiece(queenW);
+		this.squares[0][4].setPiece(kingW);
 		this.squares[0][5].setPiece(rightBishopW);
 		this.squares[0][6].setPiece(rightKnightW);
 		this.squares[0][7].setPiece(rightRookW);
@@ -97,8 +97,8 @@ public class Board {
 		this.squares[7][0].setPiece(leftRookB);
 		this.squares[7][1].setPiece(leftKnightB);
 		this.squares[7][2].setPiece(leftBishopB);
-		this.squares[7][3].setPiece(kingB);
-		this.squares[7][4].setPiece(queenB);
+		this.squares[7][3].setPiece(queenB);
+		this.squares[7][4].setPiece(kingB);
 		this.squares[7][5].setPiece(rightBishopB);
 		this.squares[7][6].setPiece(rightKnightB);
 		this.squares[7][7].setPiece(rightRookB);
@@ -165,24 +165,6 @@ public class Board {
 		}
 	}
 	
-	public boolean casteling(String direction, String color) {
-		boolean restricted=false;
-		if(color.equals("w") && direction.equals("left") && !this.squares[3][0].isEmpty()) {
-			if (this.squares[3][0].getPiece() instanceof King && this.squares[7][0].getPiece() instanceof Rook) {
-				King kingW=(King)this.squares[3][0].getPiece();
-				Rook rookW=(Rook)this.squares[7][0].getPiece();
-				if(kingW.isMoved() || rookW.isMoved() ) {
-					restricted=true;
-				}
-		}else if(direction.equals("right")) {
-				
-			}
-		}else if(color.equals("b")) {
-			
-		}
-		
-		return resitricted
-		
-	}
+	
 	
 }

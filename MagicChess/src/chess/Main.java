@@ -18,8 +18,7 @@ public class Main {
 		arduino.serialWrite("G1 Y0\n""G4 P1000\n");
 		arduino.serialWrite("M400\n");
 		arduino.serialWrite("M280 P0 S0\n");*/
-		
-		System.out.println("hola");
+
 		ArduinoController controller=new ArduinoController();
 		controller.move(3, 4, 2, 1);
 		

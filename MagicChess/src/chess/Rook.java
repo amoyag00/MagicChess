@@ -5,6 +5,8 @@ public class Rook extends Piece{
 	Board board;
 	boolean moved = false;
 	
+	
+
 	public boolean isRestricted(int newX, int newY) {
 		
 		boolean restrict = false;
@@ -54,5 +56,13 @@ public class Rook extends Piece{
 		}
 		
 		return restrict;
+	}
+	
+	public boolean isMoved() {
+		return moved;
+	}
+
+	public void setMoved(boolean moved) {
+		this.moved = moved;
 	}
 }
