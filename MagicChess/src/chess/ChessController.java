@@ -43,15 +43,15 @@ public class ChessController {
 		if(this.board.getSquare(destX, destY).isEmpty()) {
 			this.board.move(originX, originY, destX, destY);
 		}else {
-			 
+			// 2.1. If a piece will be captured call 
+			 this.board.capture(destX, destY, color);
+			 this.arduinoController.capturePiece(color,destX,destY,
+						board.getCapturedX(color),board.getCapturedY(color));
 		}
 		/* 3. Then call Arduino controller and perform the movement :*/
 		this.arduinoController.move(originX, originY, destX, destY);
 		
-		// 3.1. If a piece will be captured call 
-		this.arduinoController.capturePiece(color,destX,destY,
-				board.getCapturedX(color),board.getCapturedY(color));
-		// 3.2. Calculate the next Captured coordinates: board.nextCapturedCoord(color);
+		// 4.. Calculate the next Captured coordinates: board.nextCapturedCoord(color);
 		this.changeColor();
 	}
 	

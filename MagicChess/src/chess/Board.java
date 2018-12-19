@@ -6,7 +6,8 @@ public class Board {
 
 	private static final int SIZE=8;
 	private Square squares [][];
-
+	private Square capturedWhite [][];
+	private Square capturedBlack [][];
 
 	private int whiteCapturedX;
 	private int whiteCapturedY;
@@ -16,10 +17,19 @@ public class Board {
 	public Board() {
 		//TODO create squares for captured pieces. 2x8 each one
 		squares=new Square[this.SIZE][this.SIZE];
+		this.capturedWhite=new Square [2][this.SIZE];
+		this.capturedBlack=new Square [2][this.SIZE];
 		
 		for(int i=0;i<SIZE;i++) {
 			for(int j=0;j<SIZE;j++) {
 				squares[i][j]=new Square(i,j);
+			}
+		}
+		
+		for(int i=0;i<2;i++) {
+			for(int j=0;j<this.SIZE;j++) {
+				this.capturedWhite[i][j]=new Square(i,j);
+				this.capturedBlack[i][j]=new Square(i,j);
 			}
 		}
 		
@@ -170,6 +180,23 @@ public class Board {
 		Piece temp=this.getSquare(x,y).getPiece();
 		this.getSquare(newX, newY).setPiece(temp);
 		this.getSquare(newX, newY).free();
+	}
+	
+	/**
+	 * Moves the piece to the captured board.
+	 * @param x
+	 * @param y
+	 * @param color
+	 */
+	public void capture(int x, int y, String color) {
+		Piece capturedPiece=this.squares[x-1][y-1].getPiece();
+		this.squares[x-1][y-1].free();
+		
+		if(color.equals("w")) {
+			this.capturedWhite[this.whiteCapturedX][this.whiteCapturedY].setPiece(capturedPiece);
+		}else if(color.equals("b")) {
+			this.capturedBlack[this.blackCapturedX][this.blackCapturedY].setPiece(capturedPiece);
+		}
 	}
 	
 }
