@@ -1,6 +1,6 @@
 package chess;
 
-public class Piece {
+public abstract class Piece {
 	
 	public int x;
 	public int y;
@@ -41,4 +41,6 @@ public class Piece {
 	public void setColor(char color) {
 		this.color = color;
 	}
+	
+	public abstract boolean isRestricted(int newX, int newY);
 }

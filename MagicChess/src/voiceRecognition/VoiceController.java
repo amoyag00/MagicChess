@@ -57,12 +57,20 @@ public class VoiceController {
 	 * Parses strings which can contain a command
 	 * @param word
 	 */
-	public String parse(String possibleCommand) {
+	public void parse(String possibleCommand) {
 		possibleCommand=possibleCommand.toLowerCase();
 		
 		String translation="";
 		String words []=possibleCommand.split(" ");
 		String command="notACommand";//Used only for testing
+		if(possibleCommand.contains("enroque izquierda")) {
+			this.chessController.casteling("left");
+			return;
+		}
+		if(possibleCommand.contains("enroque derecha")) {
+			this.chessController.casteling("right");
+			return;
+		}
 		if(findOriginX(words)) {
 			if(findOriginY(words)) {
 				if(findDestX(words)) {
@@ -73,7 +81,7 @@ public class VoiceController {
 				}
 			}
 		}
-		return command;
+		
 	}
 	
 	/**

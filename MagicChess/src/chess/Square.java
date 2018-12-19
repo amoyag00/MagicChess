@@ -19,10 +19,14 @@ public class Square {
 	}
 	
 	public void setPiece(Piece piece) {
+		piece.setX(this.x);
+		piece.setY(this.y);
 		this.piece=piece;
 	}
 	
-	
+	public void free() {
+		this.setPiece(null);
+	}
 	/**
 	 * returns the type of the piece located in this square
 	 * @return the type of piece

@@ -165,6 +165,11 @@ public class Board {
 		}
 	}
 	
-	
+	public void move(int x, int y, int newX, int newY) {
+		
+		Piece temp=this.getSquare(x,y).getPiece();
+		this.getSquare(newX, newY).setPiece(temp);
+		this.getSquare(newX, newY).free();
+	}
 	
 }

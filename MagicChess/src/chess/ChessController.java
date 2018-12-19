@@ -7,11 +7,13 @@ public class ChessController {
 	
 	private static ChessController instance;
 	private ArduinoController arduinoController;
+	private String color;
 	
 	public ChessController() {
 		this.board=new Board();
 		this.board.createPieces();
 		this.arduinoController=ArduinoController.getInstance();
+		this.color="w";
 	}
 	
 	/**
@@ -29,16 +31,31 @@ public class ChessController {
 	public void move(int originX, int originY, int destX, int destY) {
 		//TODO
 		// 1. Check if movement is valid
+		Piece piece=this.board.checkSquare(originX, originY);
+		if(piece!=null) {
+			if(piece.isRestricted(destX, destY)) {
+				return;
+			}
+		}else {
+			return;
+		}
 		// 2. If its valid update the board
+		if(this.board.getSquare(destX, destY).isEmpty()) {
+			this.board.move(originX, originY, destX, destY);
+		}else {
+			 
+		}
 		/* 3. Then call Arduino controller and perform the movement :*/
 		this.arduinoController.move(originX, originY, destX, destY);
-		/* 3.1. If a piece will be captured call 
+		
+		// 3.1. If a piece will be captured call 
 		this.arduinoController.capturePiece(color,destX,destY,
-		board.getCapturedX(color),board.getCapturedY(color) */
+				board.getCapturedX(color),board.getCapturedY(color));
 		// 3.2. Calculate the next Captured coordinates: board.nextCapturedCoord(color);
+		this.changeColor();
 	}
 	
-	public boolean casteling(String direction, String color) {
+	public boolean casteling(String direction) {
 		boolean restricted=false;
 		
 		if(color.equals("w")) {
@@ -107,5 +124,16 @@ public class ChessController {
 		
 		return restricted;
 		
+	}
+	
+	/**
+	 * Changes the color according the turn.
+	 */
+	public void changeColor() {
+		if(this.color.equals("w")) {
+			this.color="b";
+		}else if(this.color.equals("b")) {
+			this.color="w";
+		}
 	}
 }
