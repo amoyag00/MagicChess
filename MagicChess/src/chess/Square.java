@@ -25,7 +25,7 @@ public class Square {
 	}
 	
 	public void free() {
-		this.setPiece(null);
+		this.piece=null;
 	}
 	/**
 	 * returns the type of the piece located in this square
