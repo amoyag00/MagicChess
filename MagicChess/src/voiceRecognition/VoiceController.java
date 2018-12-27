@@ -53,6 +53,14 @@ public class VoiceController {
 		return instance;
 	}
 	
+	public void parseGameMode(String gameMode) {
+		gameMode=gameMode.toLowerCase();
+		if(gameMode.contains("1 jugador")) {
+			this.chessController.setGameMode("1player");
+		}else if(gameMode.contains("2player")){
+			this.chessController.setGameMode("2player");
+		}
+	}
 	/**
 	 * Parses strings which can contain a command
 	 * @param word

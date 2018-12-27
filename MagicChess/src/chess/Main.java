@@ -19,8 +19,8 @@ public class Main {
 		arduino.serialWrite("M400\n");
 		arduino.serialWrite("M280 P0 S0\n");*/
 
-		ArduinoController controller=new ArduinoController();
-		controller.move(3, 4, 2, 1);
+		/*ArduinoController controller=new ArduinoController();
+		controller.move(3, 4, 2, 1);*/
 		
 		
 		//System.out.println(arduino.serialRead());
@@ -28,6 +28,20 @@ public class Main {
 		//arduino.serialWrite('1', 20); //its second parameter even allows delays. more deta*/
 		/*ArduinoController.getInstance().capturePiece("b", 3, 4, 2, 3);
 		VoiceController.getInstance().parse("hola echo 5 entonces hotel 6 vale");*/
+		
+		Stockfish sc=new Stockfish();
+		sc.move(5,2,5,4);
+		sc.calculateMove();
+		System.out.println(sc.getOriginX()+" "+sc.getOriginY()+" "+sc.getDestX()+" "+sc.getDestY());
+		
+		sc.move(7,1,6,3);
+		sc.calculateMove();
+		System.out.println(sc.getOriginX()+" "+sc.getOriginY()+" "+sc.getDestX()+" "+sc.getDestY());
+		
+		sc.move(6,1,1,6);
+		sc.calculateMove();
+		System.out.println(sc.getOriginX()+" "+sc.getOriginY()+" "+sc.getDestX()+" "+sc.getDestY());
+		
 		
 	}
 	

@@ -4,16 +4,19 @@ import arduino.ArduinoController;
 
 public class ChessController {
 	private Board board;
-	
+	private String gameMode;
 	private static ChessController instance;
 	private ArduinoController arduinoController;
 	private String color;
+	private Stockfish stockfish;
 	
 	public ChessController() {
 		this.board=new Board();
 		this.board.createPieces();
 		//this.arduinoController=ArduinoController.getInstance();
 		this.color="w";
+		this.gameMode="";
+		this.stockfish=new Stockfish();
 	}
 	
 	/**
@@ -50,10 +53,18 @@ public class ChessController {
 						board.getCapturedX(color),board.getCapturedY(color));*/
 			 this.board.move(originX, originY, destX, destY);
 		}
+		
 		/* 3. Then call Arduino controller and perform the movement :*/
 		//this.arduinoController.move(originX, originY, destX, destY);
 		
-		this.changeColor();
+		if(this.gameMode.equals("1jugador")) {
+			this.stockfish.move(originX,originY,destX,destY);
+			stockfish.calculateMove();
+			move(stockfish.getOriginX(),stockfish.getOriginY(),stockfish.getDestX(),stockfish.getDestY());
+		}else {
+			this.changeColor();
+		}
+		
 		return true;
 	}
 	
@@ -142,7 +153,16 @@ public class ChessController {
 	public void setColor(String color) {
 		this.color=color;
 	}
+	
 	public Board getBoard() {
 		return this.board;
+	}
+	
+	public void setGameMode(String gameMode) {
+		this.gameMode=gameMode;
+	}
+	
+	public String getGameMode() {
+		return this.gameMode;
 	}
 }
