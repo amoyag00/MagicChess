@@ -30,3 +30,18 @@ The android client has been developed in android studio. You only have to open t
 
 ## Marlin code
 1.0.6 Load the Marlin modified code in arduino with Arduino IDE. Some versions of Arduino IDE may generate errors. Version 1.0.6 of Arduino IDE should load the Marlin code without any problems.
+
+## Stockfish
+Stockfish is the chess engine used to play against the computer. It must be installed before executing the program. You can install stockfish from the official repository on github https://github.com/official-stockfish/Stockfish
+Execute the following commands to do it:
+```
+git clone https://github.com/official-stockfish/Stockfish.git
+cd Stockfish/src
+make build ARCH=[YOUR ARCH]
+```
+Now set the route of stockfish in the  class Stockfish.java, located in 
+`MagicChess/src/chess/Stockfish.java`
+
+## Google cloud speech recognition
+Follow google's documentation to get the speech recognition working
+https://cloud.google.com/java/docs/setup
