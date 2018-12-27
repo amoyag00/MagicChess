@@ -29,7 +29,7 @@ Now include that file you have created at the end of .bashrc
 The android client has been developed in android studio. You only have to open the file located in WifiSetup/androidApp with Android Studio and build the apk.
 
 ## Marlin code
-1.0.6 Load the Marlin modified code in arduino with Arduino IDE. Some versions of Arduino IDE may generate errors. Version 1.0.6 of Arduino IDE should load the Marlin code without any problems.
+Load the Marlin modified code in arduino with Arduino IDE. Some versions of Arduino IDE may generate errors. Version 1.0.6 of Arduino IDE should load the Marlin code without any problems.
 
 ## Stockfish
 Stockfish is the chess engine used to play against the computer. It must be installed before executing the program. You can install stockfish from the official repository on github https://github.com/official-stockfish/Stockfish
