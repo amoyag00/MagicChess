@@ -13,30 +13,29 @@ public class Pawn extends Piece {
 
 		boolean restrict = false;
 
-		if (color == 'w') {
+		if (this.color == 'w') {
 			
-			if ((this.y - newY) < (-1) && this.y != 1) {
+			if ((this.y - newY) < (-1) && this.y == 2) {
 				
 				if ((this.y - newY)<(-2)) {
 					
 					restrict = true;
 				}
-				if(tablero.checkSquare(newX, newY)!=null) {
-					restrict=true;
-				}
-			}else if ((this.y - newY) > 0) {
+				
+			} else if ((this.y - newY) >= 0 || (this.y - newY)<-1) {
 				
 				restrict = true;
+				
 			}
 			
 			//Comprueba cuando come
 			if(newX!=this.x) {
 				
-				if(Math.abs(this.x-newX)<2) {
+				if(Math.abs(this.x-newX)>1) {
 					restrict = true;
 				}else {
 					if(tablero.checkSquare(newX, newY)!=null) {
-						if(tablero.checkSquare(newX, newY).getColor()==this.color) {
+						if(tablero.checkSquare(newX, newY).getColor()=='w') {
 							restrict=true;
 						}
 					}else {
@@ -44,31 +43,40 @@ public class Pawn extends Piece {
 					}
 				}
 				
+			} else {
+				
+				if(tablero.checkSquare(newX, newY)!=null) {
+					restrict = true;
+				}
+				
+			}
+			
+			if(this.y==newY) {
+				restrict=true;
 			}
 			
 		} else {
-			if ((this.y - newY) > (1) && this.y != 6) {
+			if ((this.y - newY) > (1) && this.y == 7) {
 				
 				if ((this.y - newY)>2) {
 					
 					restrict = true;
 				}
-				if(tablero.checkSquare(newX, newY)!=null) {
-					restrict=true;
-				}
+			
 				
-			}else if ((this.y - newY) < 0) {
+			}else if ((this.y - newY) <= 0 || (this.y - newY)>1) {
 				
 				restrict = true;
 			}
+			
 			//Comprueba cuando come
 			if(newX!=this.x) {
 				
-				if(Math.abs(this.x-newX)<2) {
+				if(Math.abs(this.x-newX)>1) {
 					restrict = true;
 				}else {
 					if(tablero.checkSquare(newX, newY)!=null) {
-						if(tablero.checkSquare(newX, newY).getColor()==this.color) {
+						if(tablero.checkSquare(newX, newY).getColor()=='b') {
 							restrict=true;
 						}
 					}else {
@@ -76,6 +84,16 @@ public class Pawn extends Piece {
 					}
 				}
 				
+			} else {
+				
+				if(tablero.checkSquare(newX, newY)!=null) {
+					restrict = true;
+				}
+				
+			}
+			
+			if(this.y==newY) {
+				restrict=true;
 			}
 		}
 
