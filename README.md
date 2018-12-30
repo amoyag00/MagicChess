@@ -42,7 +42,7 @@ make build ARCH=[YOUR ARCH]
 
 Alternatively, if it does not work try this
 `sudo apt-get install stockfish`
-Then you can find stockfish executable in `cd /usr/games/`
+Then you can find stockfish executable in `/usr/games/`
 
 Now set the route of stockfish in the  class Stockfish.java, located in 
 `MagicChess/src/chess/Stockfish.java`
