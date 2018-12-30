@@ -31,14 +31,14 @@ public class King extends Piece{
 		}
 
 		
-		if((newX > tablero.getSize() || newX < 1 || (newY > tablero.getSize() || newY < 1))) {
+		if((newX > board.getSize() || newX < 1 || (newY > board.getSize() || newY < 1))) {
 			
 			restrict=true;
 			
 		}else if(this.x == newX && this.y != newY){
 			
-			if(this.tablero.checkSquare(newX, newY)!= null) {
-				if(this.tablero.checkSquare(newX, newY).getColor() == this.color) {
+			if(this.board.checkSquare(newX, newY)!= null) {
+				if(this.board.checkSquare(newX, newY).getColor() == this.color) {
 					restrict=true;
 				}
 			}
@@ -46,8 +46,8 @@ public class King extends Piece{
 		}else if(this.y == newY && this.x != newX){
 			
 
-			if(this.tablero.checkSquare(newX, newY)!= null) {
-				if(this.tablero.checkSquare(newX, newY).getColor() == this.color) {
+			if(this.board.checkSquare(newX, newY)!= null) {
+				if(this.board.checkSquare(newX, newY).getColor() == this.color) {
 					restrict=true;
 				}
 			}
@@ -58,8 +58,8 @@ public class King extends Piece{
 				restrict = true;
 			} else {
 				
-				if(this.tablero.checkSquare(newX, newY)!= null) {
-					if(this.tablero.checkSquare(newX, newY).getColor() == this.color) {
+				if(this.board.checkSquare(newX, newY)!= null) {
+					if(this.board.checkSquare(newX, newY).getColor() == this.color) {
 						restrict=true;
 					}
 				}

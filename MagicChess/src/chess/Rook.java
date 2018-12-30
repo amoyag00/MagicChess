@@ -2,7 +2,6 @@ package chess;
 
 public class Rook extends Piece{
 
-	Board board;
 	boolean moved = false;
 	
 	

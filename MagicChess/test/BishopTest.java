@@ -41,4 +41,13 @@ class BishopTest {
 		
 		assertTrue(p.isRestricted(3, 2));
 	}
+	
+	@Test
+	void test1() {
+		Bishop p=new Bishop();
+		p.x=6;
+		p.y=1;
+		
+		assertTrue(p.isRestricted(4, 3));
+	}
 }

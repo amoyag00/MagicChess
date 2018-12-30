@@ -2,7 +2,6 @@ package chess;
 
 public class Knight extends Piece{
 
-	Board board;
 	
 	public boolean isRestricted(int newX, int newY) {
 		

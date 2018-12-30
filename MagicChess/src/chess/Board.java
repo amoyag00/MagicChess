@@ -78,18 +78,27 @@ public class Board {
 		
 		for(int i=0;i<this.SIZE;i++) {
 			Pawn pawnW=new Pawn();
-			pawnW.color='w';
+			pawnW.setColor('w');
 			this.squares[i][1].setPiece(pawnW);
 		}
 		
 		this.squares[0][0].setPiece(leftRookW);
+		leftRookW.setColor('w');
+
 		this.squares[1][0].setPiece(leftKnightW);
+		leftKnightW.setColor('w');
 		this.squares[2][0].setPiece(leftBishopW);
+		leftBishopW.setColor('w');
 		this.squares[3][0].setPiece(queenW);
+		queenW.setColor('w');
 		this.squares[4][0].setPiece(kingW);
+		kingW.setColor('w');
 		this.squares[5][0].setPiece(rightBishopW);
+		rightBishopW.setColor('w');
 		this.squares[6][0].setPiece(rightKnightW);
+		rightKnightW.setColor('w');
 		this.squares[7][0].setPiece(rightRookW);
+		rightRookW.setColor('w');
 	
 		//Creating black pieces
 		Rook leftRookB=new Rook();
@@ -103,18 +112,26 @@ public class Board {
 		
 		for(int i=0;i<this.SIZE;i++) {
 			Pawn pawnB=new Pawn();
-			pawnB.color='b';
+			pawnB.setColor('b');
 			this.squares[i][6].setPiece(pawnB);
 		}
 		
 		this.squares[0][7].setPiece(leftRookB);
+		leftRookB.setColor('b');
 		this.squares[1][7].setPiece(leftKnightB);
+		leftKnightB.setColor('b');
 		this.squares[2][7].setPiece(leftBishopB);
+		leftBishopB.setColor('b');
 		this.squares[3][7].setPiece(queenB);
+		queenB.setColor('b');
 		this.squares[4][7].setPiece(kingB);
+		kingB.setColor('b');
 		this.squares[5][7].setPiece(rightBishopB);
+		rightBishopB.setColor('b');
 		this.squares[6][7].setPiece(rightKnightB);
+		rightKnightB.setColor('b');
 		this.squares[7][7].setPiece(rightRookB);
+		rightRookB.setColor('b');
 	}
 	
 	public Square getSquare(int x, int y) {
@@ -185,6 +202,10 @@ public class Board {
 		this.getSquare(x, y).free();
 	}
 	
+	public Piece getPiece(int x, int y) {
+		return this.squares[x-1][y-1].getPiece();
+	}
+	
 	/**
 	 * Moves the piece to the captured board.
 	 * @param x
@@ -207,6 +228,39 @@ public class Board {
 		
 	}
 	
+	/**
+	 * Moves a piece from the captured board into the board
+	 * @param color
+	 * @param x position of the board where the piece will be revived
+	 * @param y
+	 */
+	public void reviveIn(String color,int x, int y) {
+		Piece temp;
+		if(color.equals("w")) {
+			if(this.whiteCapturedX==1) {
+				this.whiteCapturedX=2;
+				this.whiteCapturedY--;
+			}else if(this.whiteCapturedX==2) {
+				this.whiteCapturedX--;
+			}
+			
+			temp=this.capturedWhite[this.whiteCapturedX-1][this.whiteCapturedY-1].getPiece();
+			this.capturedWhite[this.whiteCapturedX-1][this.whiteCapturedY-1].free();
+			this.squares[x-1][y-1].setPiece(temp);
+		}else if(color.equals("b")) {
+			if(this.blackCapturedX==1) {
+				this.blackCapturedX=2;
+				this.blackCapturedY--;
+			}else if(this.blackCapturedX==2) {
+				this.blackCapturedX--;
+			}
+			
+			temp=this.capturedBlack[this.blackCapturedX-1][this.blackCapturedY-1].getPiece();
+			this.capturedBlack[this.blackCapturedX-1][this.blackCapturedY-1].free();
+			this.squares[x-1][y-1].setPiece(temp);
+		}
+	}
+	
 	public Square[][] getCaptured(String color){
 		if(color.equals("w")) {
 			return this.capturedWhite;
@@ -214,6 +268,74 @@ public class Board {
 			return this.capturedBlack;
 		}
 		return null;
+	}
+	
+	
+	public String toString() {
+		return toString(this.squares)+"\nCaptured White\n"+toString(this.capturedWhite)+
+				"\nCaptured Black\n"+toString(this.capturedBlack);
+	}
+	
+	
+	public String toString(Square [][] squares) {
+		String result="+";
+		for(int k=0;k<squares.length;k++) {
+			result+="---+";
+		}
+		result+="\n";
+		for(int j=squares[1].length-1;j>-1;j--) {
+			result+="|";
+			for(int i=0;i<squares.length;i++) {
+
+				if(squares[i][j].isEmpty()) {
+					result+="   |";
+				}else if(squares[i][j].getPiece() instanceof Pawn) {
+					if(squares[i][j].getPiece().getColor()=='w') {
+						result+=" P |";
+					}else {
+						result+=" p |";
+					}
+					
+				}else if(squares[i][j].getPiece() instanceof Rook) {
+					if(squares[i][j].getPiece().getColor()=='w') {
+						result+=" R |";
+					}else {
+						result+=" r |";
+					}
+				}else if(squares[i][j].getPiece() instanceof Knight) {
+					if(squares[i][j].getPiece().getColor()=='w') {
+						result+=" N |";
+					}else {
+						result+=" n |";
+					}
+				}else if(squares[i][j].getPiece() instanceof Bishop) {
+					if(squares[i][j].getPiece().getColor()=='w') {
+						result+=" B |";
+					}else {
+						result+=" b |";
+					}
+				}else if(squares[i][j].getPiece() instanceof Queen) {
+					if(squares[i][j].getPiece().getColor()=='w') {
+						result+=" Q |";
+					}else {
+						result+=" q |";
+					}
+				}else if(squares[i][j].getPiece() instanceof King) {
+					if(squares[i][j].getPiece().getColor()=='w') {
+						result+=" K |";
+					}else {
+						result+=" k |";
+					}
+				}
+				
+			}
+			result+="\n+";
+			for(int k=0;k<squares.length;k++) {
+				result+="---+";
+			}
+			result+="\n";
+		}
+		return result;
 	}
 	
 }

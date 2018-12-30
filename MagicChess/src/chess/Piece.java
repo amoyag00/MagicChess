@@ -6,8 +6,9 @@ public abstract class Piece {
 	public int y;
 	public char color;
 
-	protected Board tablero= Board.getInstance();
+	protected Board board= Board.getInstance();
 	
+
 	public int getX() {
 		return x;
 	}
@@ -21,11 +22,11 @@ public abstract class Piece {
 	}
 
 	public Board getTablero() {
-		return tablero;
+		return board;
 	}
 
-	public void setTablero(Board tablero) {
-		this.tablero = tablero;
+	public void setBoard(Board board) {
+		this.board = board;
 	}
 
 	public void setY(int y) {

@@ -71,13 +71,23 @@ public class VoiceController {
 		String translation="";
 		String words []=possibleCommand.split(" ");
 		String command="notACommand";//Used only for testing
+		String color=this.chessController.getColor();
 		if(possibleCommand.contains("enroque izquierda")) {
-			this.chessController.casteling("left");
+			if(color.equals("w")) {
+				this.chessController.move("longW");
+			}else if(color.equals("b")) {
+				this.chessController.move("shortB");
+			}		
 			return;
-		}
-		if(possibleCommand.contains("enroque derecha")) {
-			this.chessController.casteling("right");
+		}else if(possibleCommand.contains("enroque derecha")) {
+			if(color.equals("w")) {
+				this.chessController.move("shortW");
+			}else if(color.equals("b")) {
+				this.chessController.move("longB");
+			}		
 			return;
+		}else if(possibleCommand.contains("deshacer deshacer deshacer")) {
+			this.chessController.undo();
 		}
 		if(findOriginX(words)) {
 			if(findOriginY(words)) {

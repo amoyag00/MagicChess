@@ -25,7 +25,7 @@ public class Queen extends Piece{
 			orientationY=-1;
 		}
 		
-		if((newX > tablero.getSize() || newX < 1 || (newY > tablero.getSize() || newY < 1))) {
+		if((newX > board.getSize() || newX < 1 || (newY > board.getSize() || newY < 1))) {
 			
 			restrict=true;
 			
@@ -35,13 +35,13 @@ public class Queen extends Piece{
 				
 				int nextSquare=this.y+(i*orientationY);
 				
-				if(this.tablero.checkSquare(this.x, nextSquare)!= null) {
+				if(this.board.checkSquare(this.x, nextSquare)!= null) {
 					restrict=true;
 				}
 			}
 			
-			if(this.tablero.checkSquare(newX, newY)!= null) {
-				if(this.tablero.checkSquare(newX, newY).getColor() == this.color) {
+			if(this.board.checkSquare(newX, newY)!= null) {
+				if(this.board.checkSquare(newX, newY).getColor() == this.color) {
 					restrict=true;
 				}
 			}
@@ -52,13 +52,13 @@ public class Queen extends Piece{
 				
 				int nextSquare=this.x+(i*orientationX);
 				
-				if(this.tablero.checkSquare(nextSquare, this.y)!= null) {
+				if(this.board.checkSquare(nextSquare, this.y)!= null) {
 					restrict=true;
 				}
 			}
 			
-			if(this.tablero.checkSquare(newX, newY)!= null) {
-				if(this.tablero.checkSquare(newX, newY).getColor() == this.color) {
+			if(this.board.checkSquare(newX, newY)!= null) {
+				if(this.board.checkSquare(newX, newY).getColor() == this.color) {
 					restrict=true;
 				}
 			}
@@ -74,14 +74,14 @@ public class Queen extends Piece{
 					int nextSquareX=this.x+(i*orientationX);
 					int nextSquareY=this.y+(i*orientationY);
 					
-					if(this.tablero.checkSquare(nextSquareX, nextSquareY)!= null) {
+					if(this.board.checkSquare(nextSquareX, nextSquareY)!= null) {
 						restrict=true;
 					}
 					
 				}
 				
-				if(this.tablero.checkSquare(newX, newY)!= null) {
-					if(this.tablero.checkSquare(newX, newY).getColor() == this.color) {
+				if(this.board.checkSquare(newX, newY)!= null) {
+					if(this.board.checkSquare(newX, newY).getColor() == this.color) {
 						restrict=true;
 					}
 				}

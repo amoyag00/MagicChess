@@ -14,6 +14,7 @@ class ChessControllerTest {
 	@Test
 	void testMoveKnight() {
 		ChessController controller=new ChessController();
+		controller.setGameMode("2player");
 		assertTrue(controller.move(2, 1, 3, 3));
 		assertFalse(controller.move(3, 3, 5, 6));
 		assertTrue(controller.move(3, 3, 5, 4));
@@ -24,6 +25,7 @@ class ChessControllerTest {
 	@Test
 	void eatPawBishop() {
 		ChessController controller=new ChessController();
+		controller.setGameMode("2player");
 		assertTrue(controller.move(2, 1, 3, 3));
 		assertTrue(controller.move(3, 3, 2, 5));
 		controller.setColor("w");

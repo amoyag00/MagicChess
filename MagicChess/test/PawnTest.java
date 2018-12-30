@@ -23,12 +23,13 @@ class PawnTest {
 		pawnW.x=2;
 		pawnW.y=3;
 		pawnW.setColor('w');
+		pawnW.setBoard(board);
 		
 		Pawn pawnB=new Pawn();
 		pawnB.x=3;
 		pawnB.y=4;
 		pawnB.setColor('b');
-		
+		pawnB.setBoard(board);
 		board.getSquare(2, 3).setPiece(pawnW);
 		board.getSquare(3, 4).setPiece(pawnB);
 		assertTrue(!pawnW.isRestricted(3,4));
@@ -38,18 +39,20 @@ class PawnTest {
 	void testIsRestrictedCaptureLeft() {
 		Board board=new Board();
 		Pawn pawnW = new Pawn();
-		pawnW.x=2;
-		pawnW.y=3;
+		pawnW.x=5;
+		pawnW.y=4;
 		pawnW.setColor('w');
+		pawnW.setBoard(board);
 		
 		Pawn pawnB=new Pawn();
-		pawnB.x=1;
-		pawnB.y=4;
+		pawnB.x=4;
+		pawnB.y=5;
 		pawnB.setColor('b');
+		pawnB.setBoard(board);
 		
-		board.getSquare(2, 3).setPiece(pawnW);
-		board.getSquare(1, 4).setPiece(pawnB);
-		assertTrue(!pawnW.isRestricted(1,4));
+		board.getSquare(5, 4).setPiece(pawnW);
+		board.getSquare(4, 5).setPiece(pawnB);
+		assertTrue(!pawnW.isRestricted(4,5));
 	}
 	
 	@Test
@@ -116,5 +119,7 @@ class PawnTest {
 		board.getSquare(4, 2).setPiece(pawnB);
 		assertTrue(pawnW.isRestricted(4,2));
 	}
+	
+	
 
 }

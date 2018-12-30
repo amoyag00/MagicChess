@@ -34,8 +34,8 @@ public class Pawn extends Piece {
 				if(Math.abs(this.x-newX)>1) {
 					restrict = true;
 				}else {
-					if(tablero.checkSquare(newX, newY)!=null) {
-						if(tablero.checkSquare(newX, newY).getColor()=='w') {
+					if(board.checkSquare(newX, newY)!=null) {
+						if(board.checkSquare(newX, newY).getColor()=='w') {
 							restrict=true;
 						}
 					}else {
@@ -45,7 +45,7 @@ public class Pawn extends Piece {
 				
 			} else {
 				
-				if(tablero.checkSquare(newX, newY)!=null) {
+				if(board.checkSquare(newX, newY)!=null) {
 					restrict = true;
 				}
 				
@@ -75,8 +75,8 @@ public class Pawn extends Piece {
 				if(Math.abs(this.x-newX)>1) {
 					restrict = true;
 				}else {
-					if(tablero.checkSquare(newX, newY)!=null) {
-						if(tablero.checkSquare(newX, newY).getColor()=='b') {
+					if(board.checkSquare(newX, newY)!=null) {
+						if(board.checkSquare(newX, newY).getColor()=='b') {
 							restrict=true;
 						}
 					}else {
@@ -86,7 +86,7 @@ public class Pawn extends Piece {
 				
 			} else {
 				
-				if(tablero.checkSquare(newX, newY)!=null) {
+				if(board.checkSquare(newX, newY)!=null) {
 					restrict = true;
 				}
 				

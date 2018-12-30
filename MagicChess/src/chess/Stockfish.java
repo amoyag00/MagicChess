@@ -33,9 +33,10 @@ public class Stockfish {
 		sendCommand("position startpos");
 		sendCommand("d");
 		updateFen();
-		this.movements=new Stack<String>();
-		
+		this.movements=new Stack<String>();		
 	}
+	
+	
 	/**
 	 * Starts Stockfish engine as a process and initializes it
 	 * 
@@ -205,20 +206,35 @@ public class Stockfish {
 	/**
 	 * Calculates the best move
 	 */
-	public void calculateMove() {
+	public Movement calculateMove() {
 		String bestMove=this.getBestMove(this.fen, 3000);
 		this.movements.push(bestMove);
 		this.sendCommand( "position startpos moves "+getMovements() );
 		this.sendCommand("d");
 		updateFen();
-		calculateCoordinates(bestMove);
+		Movement lastMovement;
+		
+		if(bestMove.equals("e1g1")) {
+			lastMovement=new Movement("shortW");
+		}else if(bestMove.equals("e1c1")) {
+			lastMovement=new Movement("longW");
+		}else if(bestMove.equals("e8g8")) {
+			lastMovement=new Movement("shortB");
+		}else if(bestMove.equals("e8c8")) {
+			lastMovement=new Movement("longB");
+		}else {
+			this.originX= bestMove.charAt(0) - 'a' + 1;
+			this.originY=Character.getNumericValue(bestMove.charAt(1));
+			this.destX=bestMove.charAt(2) - 'a' + 1;
+			this.destY=Character.getNumericValue(bestMove.charAt(3));
+			lastMovement=new Movement(originX,originY,destX,destY);
+		}
+		
+		return lastMovement;
 	}
 	
-	public void calculateCoordinates(String move) {
-		this.originX= move.charAt(0) - 'a' + 1;
-		this.originY=Character.getNumericValue(move.charAt(1));
-		this.destX=move.charAt(2) - 'a' + 1;
-		this.destY=Character.getNumericValue(move.charAt(3));
+	public void undo() {
+		this.movements.pop();
 	}
 	
 	/**

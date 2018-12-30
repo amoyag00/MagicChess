@@ -33,7 +33,7 @@ public class ArduinoController {
 
 	public ArduinoController() {
 		this.arduino=new Arduino(this.portName,this.BAUD_RATE);
-		this.connect();
+		//this.connect();
 		this.currentX=1;
 		this.currentY=1;
 		moveToOrigin();
@@ -236,6 +236,68 @@ public class ArduinoController {
 	}
 	
 	/**
+	 * Undoes a shortCastling
+	 * @param color
+	 */
+	public void undoShortCastling(String color) {
+		if(color.equals("w")) {
+			//Move king
+			moveWithoutPiece(7, 1);
+			grab();
+			moveWithPiece(5,1);
+			release();
+			
+			//Move rook
+			moveWithoutPiece(6,1);
+			grab();
+			moveWithPiece(8,1);
+		}else if(color.equals("b")) {
+			//Move king
+			moveWithoutPiece(7, 8);
+			grab();
+			moveWithPiece(5,8);
+			release();
+			
+			//Move rook
+			moveWithoutPiece(6,8);
+			grab();
+			moveWithPiece(8,8);
+		}
+	}
+	
+	
+	/**
+	 * Undoes a long castling
+	 * @param color
+	 */
+	public void undoLongCastling(String color) {
+		if(color.equals("w")) {
+			//Move king
+			moveWithoutPiece(3, 1);
+			grab();
+			moveWithPiece(5,1);
+			release();
+			
+			//Move rook
+			moveWithoutPiece(4,1);
+			grab();
+			moveWithPiece(1,1);
+		}else if(color.equals("b")) {
+			//Move king
+			moveWithoutPiece(3, 8);
+			grab();
+			moveWithPiece(5,8);
+			release();
+			
+			//Move rook
+			moveWithoutPiece(4,8);
+			grab();
+			moveWithPiece(1,8);
+		}
+		
+	}
+	
+	/**
 	 * Moves a piece from the board to the captured pieces' section
 	 * @param color of the piece captured
 	 * @param x coordinate x where the piece is located
@@ -301,12 +363,90 @@ public class ArduinoController {
 	}
 	
 	/**
+	 * Undoes a capture
+	 * @param color
+	 * @param capturedX
+	 * @param capturedY
+	 * @param destX
+	 * @param destY
+	 */
+	public void undoCapture(String color, int capturedX, int capturedY, int destX, int destY) {
+		String command1="";//get out of the square
+		String command2="";//get out of the capturedBoard and enter in the board
+		String command3="";//move Y in the board
+		String command4="";//move X in the captured section
+		String command5="";//Enter in the square
+		
+		
+		if(color.equals("w")) {
+			moveWithoutPiece( capturedX-3, capturedY);
+			delay();
+			grab();
+			delay();
+		
+			command2="G1 X"+( (3-capturedX)*this.SQUARE_MM + this.SQUARE_MM/2 ) ;
+			
+			if(destY>capturedY) {
+				command1="G1 Y"+this.SQUARE_MM/2;
+				command3="G1 Y"+ ( (destY-capturedY-1)*this.SQUARE_MM );
+				command5="G1 Y"+ this.SQUARE_MM/2;
+			}else if(destY==capturedY){
+				command1="G1 Y"+this.SQUARE_MM/2;
+				command3="G1 Y"+ ( (destY-capturedY)*this.SQUARE_MM );
+				command5="G1 Y-"+ this.SQUARE_MM/2;
+			}else{
+				command1="G1 Y-"+this.SQUARE_MM/2;
+				command3="G1 Y"+ ( (destY-capturedY+1)*this.SQUARE_MM );
+				command5="G1 Y-"+ this.SQUARE_MM/2;
+			}
+			
+			command4= "G1 X"+ (destX*this.SQUARE_MM - this.SQUARE_MM/2) ;
+			
+		}else if(color.equals("b")) {
+			moveWithoutPiece( capturedX+9, capturedY);
+			delay();
+			grab();
+			delay();
+		
+			
+			command2="G1 X-"+( (capturedX)*this.SQUARE_MM + this.SQUARE_MM/2 ) ;
+			
+			if(destY>capturedY) {
+				command1="G1 Y"+this.SQUARE_MM/2;
+				command3="G1 Y"+ ( (destY-capturedY-1)*this.SQUARE_MM );
+				command5="G1 Y"+ this.SQUARE_MM/2;
+			}else if(destY==capturedY){
+				command1="G1 Y"+this.SQUARE_MM/2;
+				command3="G1 Y"+ ( (destY-capturedY)*this.SQUARE_MM );
+				command5="G1 Y-"+ this.SQUARE_MM/2;
+			}else{
+				command1="G1 Y-"+this.SQUARE_MM/2;
+				command3="G1 Y"+ ( (destY-capturedY+1)*this.SQUARE_MM );
+				command5="G1 Y-"+ this.SQUARE_MM/2;
+			}
+			
+			command4= "G1 X-"+ ((8-destX)*this.SQUARE_MM + this.SQUARE_MM/2) ;
+			
+		}
+		serialWrite(command1);
+		serialWrite(command2);
+		serialWrite(command3);
+		serialWrite(command4);
+		serialWrite(command5);
+		/*delay();
+		release();
+		delay();
+		moveToBoardOrigin();*/
+	}
+					
+	
+	/**
 	 * Writes the command into arduino through serial USB port
 	 * @param command
 	 */
 	public void serialWrite(String command) {
 		System.out.println(command);
-		this.arduino.serialWrite(command+"\n");
+		//this.arduino.serialWrite(command+"\n");
 		
 	}
 	
