@@ -25,7 +25,7 @@ public class Stockfish {
 	private int destY;
 	private String fen="";
 	private Stack<String> movements;
-	private static final String PATH = "/home/alex/Escritorio/Stockfish/src/stockfish";
+	private static final String PATH = "/usr/games/stockfish";
 	
 	
 	public Stockfish() {
@@ -233,10 +233,34 @@ public class Stockfish {
 		return lastMovement;
 	}
 	
+	/**
+	 * Undoes a movement
+	 */
 	public void undo() {
 		this.movements.pop();
 	}
 	
+	public void promote(int originX,int originY,int destX,int destY, String promotedPiece) {
+		String originx=letterOf(originX);
+		String originy=String.valueOf(originY);
+		String destx=letterOf(destX);
+		String desty=String.valueOf(destY);
+		
+		if(promotedPiece.equals("queen")) {
+			promotedPiece="q";
+		}else if(promotedPiece.equals("rook")) {
+			promotedPiece="r";
+		}else if(promotedPiece.equals("bishop")) {
+			promotedPiece="b";
+		}else if(promotedPiece.equals("knight")) {
+			promotedPiece="k";
+		}
+		String movement=originx+originy+destx+desty+promotedPiece;
+		this.movements.push(movement);
+		this.sendCommand( "position startpos moves "+getMovements() );
+		this.sendCommand("d");
+		updateFen();
+	}
 	/**
 	 * Updates the fen
 	 * 

@@ -43,7 +43,6 @@ public class StreamingVoiceRecognition {
 
 	  ResponseObserver<StreamingRecognizeResponse> responseObserver = null;
 	  try (SpeechClient client = SpeechClient.create()) {
-
 	    responseObserver =
 	        new ResponseObserver<StreamingRecognizeResponse>() {
 	          ArrayList<StreamingRecognizeResponse> responses = new ArrayList<>();

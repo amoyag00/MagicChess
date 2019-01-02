@@ -12,6 +12,7 @@ public class Movement {
 	private boolean kingFirstMove;
 	private Piece piece;
 	private String capturedColor;
+	private boolean isPromotion;
 	
 	public Movement(int originX, int originY, int destX, int destY) {
 		this.originX=originX;
@@ -103,7 +104,13 @@ public class Movement {
 	}
 	
 	
+	public void setIsPromotion(boolean isPromotion) {
+		this.isPromotion=isPromotion;
+	}
 	
+	public boolean isPromotion() {
+		return this.isPromotion;
+	}
 	
 	
 }

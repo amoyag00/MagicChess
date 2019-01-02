@@ -308,6 +308,7 @@ public class ArduinoController {
 	 *  where the piece must be moved
 	 */
 	public void capturePiece(String color, int x, int y, int capturedX, int capturedY) {
+		System.out.println("Capture");
 		String command1="";//get out of the square
 		String command2="";//get out of the board and enter in middle line of captured section
 		String command3="";//move Y in the captured section
@@ -371,6 +372,7 @@ public class ArduinoController {
 	 * @param destY
 	 */
 	public void undoCapture(String color, int capturedX, int capturedY, int destX, int destY) {
+		System.out.println("Undo capture");
 		String command1="";//get out of the square
 		String command2="";//get out of the capturedBoard and enter in the board
 		String command3="";//move Y in the board

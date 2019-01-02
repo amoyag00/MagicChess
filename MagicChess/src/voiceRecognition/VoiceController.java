@@ -91,10 +91,16 @@ public class VoiceController {
 		}
 		if(findOriginX(words)) {
 			if(findOriginY(words)) {
-				if(findDestX(words)) {
+				if(findDestX(words)) { 
 					if(findDestY(words)) {
-						this.chessController.move(this.originX, this.originY, this.destX, this.destY);
-						command=this.originX+","+this.originY+","+ this.destX+","+ this.destY;
+						if(isPromotion(words)){
+							this.chessController.promote(this.originX, this.originY, this.destX, this.destY,words[index]);
+							command=this.originX+","+this.originY+","+ this.destX+","+ this.destY;
+						}else {
+							this.chessController.move(this.originX, this.originY, this.destX, this.destY);
+							command=this.originX+","+this.originY+","+ this.destX+","+ this.destY;
+						}
+						
 					}
 				}
 			}
@@ -110,6 +116,7 @@ public class VoiceController {
 	 */
 	public boolean findOriginX(String [] words) {
 		boolean found=false;
+		this.index=0;
 		for(int i=0;i<words.length;i++){
 			if(this.radioAlphabet.containsKey(words[i])) {
 				this.originX=Integer.valueOf(this.radioAlphabet.get(words[i]));
@@ -130,6 +137,9 @@ public class VoiceController {
 	 */
 	public boolean findOriginY(String [] words) {
 		boolean found=false;
+		if(this.index>=words.length) {
+			return false;
+		}
 		if(words[this.index].matches("^([1-8])$")) {
 			this.originY=Integer.valueOf(words[this.index]);
 			found=true;
@@ -143,13 +153,16 @@ public class VoiceController {
 	
 	
 	/**
-	 * Finds a word from the radio alphabet (alpha,bravo,charlie...) and translates it to
+	 * Finds a word from the radio alphabet (alpha,bravo, charlie...) and translates it to
 	 * a numeric coordinate
 	 * @param words
 	 * @return true if found, false otherwise
 	 */
 	public boolean findDestX(String [] words) {
 		boolean found=false;
+		if(this.index>=words.length) {
+			return false;
+		}
 		for(int i=this.index;i<words.length;i++){
 			if(this.radioAlphabet.containsKey(words[i])) {
 				this.destX=Integer.valueOf(this.radioAlphabet.get(words[i]));
@@ -173,10 +186,13 @@ public class VoiceController {
 	 */
 	public boolean findDestY(String [] words) {
 		boolean found=false;
+		if(this.index>=words.length) {
+			return false;
+		}
 		if(words[this.index].matches("^([1-8])$")) {
 			this.destY=Integer.valueOf(words[this.index]);
 			found=true;
-			this.index=-1;
+			this.index++;
 		}else {
 			found=false;
 			this.originX=-1;
@@ -187,7 +203,25 @@ public class VoiceController {
 	}
 	
 	
-	
+	/**
+	 * Checks if the command is a promotion, that is, the command is like
+	 * <originX> <originY> <destX> <destY> <piecePromoted>
+	 * @param words
+	 * @return
+	 */
+	public boolean isPromotion(String [] words) {
+		if(this.index>=words.length) {
+			return false;
+		}
+		boolean isPromotion=false;
+		if(words[this.index].equals("reina") ||
+				words[this.index].equals("torre")||
+				words[this.index].equals("caballo")||
+				words[this.index].equals("alfil")) {
+			isPromotion=true;
+		}
+		return isPromotion;
+	}
 	
 	
 	

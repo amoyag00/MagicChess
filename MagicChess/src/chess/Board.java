@@ -261,6 +261,40 @@ public class Board {
 		}
 	}
 	
+	/**
+	 * Promotes a pawn to the specified piece
+	 * @param x
+	 * @param y
+	 * @param promote
+	 */
+	public void promote(int x, int y, String promote) {
+		Piece promotedP=null;
+		Piece pawn=this.squares[x-1][y-1].getPiece();
+		if(promote.equals("queen")) {
+			promotedP=new Queen();			
+		}else if(promote.equals("rook")) {
+			promotedP=new Rook();
+		}else if(promote.equals("knight")) {
+			promotedP=new Knight();
+		}else if(promote.equals("bishop")){
+			promotedP=new Bishop();
+		}
+		promotedP.setColor(pawn.getColor());
+		this.squares[x-1][y-1].setPiece(promotedP);
+	}
+	
+	/**
+	 * Undoes the promotion
+	 * @param x
+	 * @param y
+	 */
+	public void undoPromotion(int x, int y) {
+		Piece promoted=this.squares[x-1][y-1].getPiece();
+		Pawn pawn=new Pawn();
+		pawn.setColor(promoted.getColor());
+		this.squares[x-1][y-1].setPiece(pawn);
+	}
+	
 	public Square[][] getCaptured(String color){
 		if(color.equals("w")) {
 			return this.capturedWhite;

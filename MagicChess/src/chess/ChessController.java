@@ -16,7 +16,7 @@ public class ChessController {
 	public ChessController() {
 		this.board=Board.getInstance();
 		this.board.createPieces();
-		//this.arduinoController=ArduinoController.getInstance();
+		this.arduinoController=ArduinoController.getInstance();
 		this.color="w";
 		this.gameMode="";
 		this.stockfish=new Stockfish();
@@ -184,15 +184,15 @@ public class ChessController {
 			move.setCapture(true);
 			this.moves.push(capture);
 			this.moves.push(move);
-			 /*this.arduinoController.capturePiece(color,destX,destY,
-						board.getCapturedX(color),board.getCapturedY(color));*/
+			this.arduinoController.capturePiece(color,destX,destY,
+						board.getCapturedX(color),board.getCapturedY(color));
 			this.board.move(originX, originY, destX, destY);
 			 
 		}
 		
 		
 		/* 3. Then call Arduino controller and perform the movement :*/
-		//this.arduinoController.move(originX, originY, destX, destY);
+		this.arduinoController.move(originX, originY, destX, destY);
 		
 		this.changeColor();
 		return true;
@@ -314,7 +314,11 @@ public class ChessController {
 			}else if( move.isRookFirstMove()) {
 				((Rook)move.getPiece()).setMoved(false);
 			}
-			//this.arduinoController.move(move.getDestX(),move.getDestY(),move.getOriginX(),move.getOriginY());
+			
+			if(move.isPromotion()) {
+				board.undoPromotion(move.getOriginX(),move.getOriginY());
+			}
+			this.arduinoController.move(move.getDestX(),move.getDestY(),move.getOriginX(),move.getOriginY());
 		
 			if(move.isCapture()) {//Get the captured piece back to the board
 				captured=this.moves.pop();
@@ -324,8 +328,14 @@ public class ChessController {
 				}else if(captured.getCapturedColor().equals("b")) {
 					board.reviveIn("b",captured.getOriginX(),captured.getOriginY());
 				}
-				/*this.arduinoController.undoCapture(captured.getCapturedColor(), captured.getDestX(),
-					captured.getDestY(),captured.getOriginX(),captured.getOriginY());*/
+				String capturedBoard;
+				if(captured.getCapturedColor().equals("w")) {
+					capturedBoard="b";
+				}else {
+					capturedBoard="w";
+				}
+				this.arduinoController.undoCapture(capturedBoard, captured.getDestX(),
+					captured.getDestY(),captured.getOriginX(),captured.getOriginY());
 			}
 				
 			
@@ -341,22 +351,94 @@ public class ChessController {
 		if (type.equals("longW")) {
 			this.board.move(3,1,5,1);
 			this.board.move(4,1,1,1);
-			//this.arduinoController.undoLongCastling("w");
+			this.arduinoController.undoLongCastling("w");
 		} else if (type.equals("shortW")) {
 			this.board.move(7,1,5,1);
 			this.board.move(6,1,8,1);
-			//this.arduinoController.undoShortCastling("w");
+			this.arduinoController.undoShortCastling("w");
 		} else if (type.equals("shortB")) {
 			this.board.move(7,8,5,8);
 			this.board.move(6,8,8,8);
-			//this.arduinoController.undoShortCastling("b");
+			this.arduinoController.undoShortCastling("b");
 		} else if (type.equals("longB")) {
 			this.board.move(3,8,5,8);
 			this.board.move(4,8,1,8);
-			//this.arduinoController.undoLongCastling("b");
+			this.arduinoController.undoLongCastling("b");
 		}
 		
 		
+	}
+	
+	/**
+	 * Promotes a pawn
+	 * @param originX
+	 * @param originY
+	 * @param destX
+	 * @param destY
+	 * @param piece
+	 */
+	public boolean promote(int originX,int originY, int destX, int destY, String promotedPiece) {
+		boolean promoted=false;
+		
+		if(promotedPiece.equals("reina")) {
+			promotedPiece="queen";
+		}else if(promotedPiece.equals("torre")) {
+			promotedPiece="rook";
+		}else if(promotedPiece.equals("caballo")) {
+			promotedPiece="knight";
+		}else if(promotedPiece.equals("alfil")) {
+			promotedPiece="bishop";
+		}
+		
+		Piece piece=this.board.getPiece(originX, originY);
+		if(piece!=null) {
+			if(piece.isRestricted(destX, destY)) {
+				return false;
+			}
+		}else {
+			return false;
+		}
+		
+		Movement move= new Movement(originX, originY, destX, destY);
+		move.setIsPromotion(true);
+		if(board.getSquare(destX, destY).isEmpty()) {
+			board.move(originX, originY, destX, destY);
+			this.board.promote(destX,destY,promotedPiece);
+			this.moves.push(move);
+		}else {
+			 this.board.capture(destX, destY, color);
+			 Movement capture=new Movement(destX,destY,board.getCapturedX(color),board.getCapturedY(color));
+			 if(this.color.equals("w")) {
+				 capture.setCapturedColor("b");
+			 }else if(this.color.equals("b")) {
+				 capture.setCapturedColor("w");
+			 }
+			move.setCapture(true);
+			this.moves.push(capture);
+			this.moves.push(move);
+			this.arduinoController.capturePiece(color,destX,destY,
+						board.getCapturedX(color),board.getCapturedY(color));
+			this.board.move(originX, originY, destX, destY);
+			 
+		}
+		
+		
+		if(this.gameMode.equals("1player")) {
+			this.arduinoController.move(originX, originY, destX, destY);
+			this.stockfish.promote(originX,originY,destX,destY, promotedPiece);
+
+			Movement sFishMove=stockfish.calculateMove();
+			if(sFishMove.isCastling()) {
+				moveCastling(sFishMove.getCastling());
+			}else {
+				doMovement(sFishMove.getOriginX(),sFishMove.getOriginY(),sFishMove.getDestX(),sFishMove.getDestY());
+			}
+		}else if(this.gameMode.equals("2player")){
+			this.arduinoController.move(originX, originY, destX, destY);
+			this.changeColor();
+		}
+		
+		return true;
 	}
 	
 	/**
