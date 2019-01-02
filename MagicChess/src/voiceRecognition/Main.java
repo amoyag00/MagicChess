@@ -22,7 +22,7 @@ public class Main {
 			//From the DOC:  Initially, this property is false, meaning that the 
 			//standard output and error output of a subprocess are sent to two 
 			//separate streams
-			try  {
+			try {
 				ps.redirectErrorStream(true);
 		
 				Process pr = ps.start();  
