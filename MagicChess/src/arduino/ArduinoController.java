@@ -5,12 +5,12 @@ import java.io.InputStream;
 import java.io.OutputStream;
 
 
-import gnu.io.CommPort;
+/*import gnu.io.CommPort;
 import gnu.io.CommPortIdentifier;
 import gnu.io.NoSuchPortException;
 import gnu.io.PortInUseException;
 import gnu.io.SerialPort;
-import gnu.io.UnsupportedCommOperationException;
+import gnu.io.UnsupportedCommOperationException;*/
 
 /**
  * This class receives orders 

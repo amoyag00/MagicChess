@@ -17,7 +17,7 @@ public class Main {
 	}
 	public void executePythonVoiceRecognition() {
 		while(true) {
-			ProcessBuilder ps=new ProcessBuilder("python","/home/pi/python-docs-samples/speech/cloud-client/transcribe_streaming_mic.py");
+			ProcessBuilder ps=new ProcessBuilder("python","/home/jack/python-docs-samples/speech/cloud-client/transcribe_streaming_mic.py");
 
 			//From the DOC:  Initially, this property is false, meaning that the 
 			//standard output and error output of a subprocess are sent to two 

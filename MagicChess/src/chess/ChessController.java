@@ -19,7 +19,7 @@ public class ChessController {
 		this.arduinoController=ArduinoController.getInstance();
 		this.color="w";
 		this.gameMode="";
-		this.stockfish=new Stockfish();
+		//this.stockfish=new Stockfish();
 		this.moves=new Stack<Movement>();
 	}
 	
