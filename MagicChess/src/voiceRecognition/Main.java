@@ -3,6 +3,7 @@ package voiceRecognition;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.time.LocalDateTime;
 
 import chess.ChessController;
 
@@ -17,7 +18,7 @@ public class Main {
 	}
 	public void executePythonVoiceRecognition() {
 		while(true) {
-			ProcessBuilder ps=new ProcessBuilder("python","/home/jack/python-docs-samples/speech/cloud-client/transcribe_streaming_mic.py");
+			ProcessBuilder ps=new ProcessBuilder("python","/home/pi/python-docs-samples/speech/cloud-client/transcribe_streaming_mic.py");
 
 			//From the DOC:  Initially, this property is false, meaning that the 
 			//standard output and error output of a subprocess are sent to two 
@@ -31,16 +32,14 @@ public class Main {
 				String line;
 				
 				while ((line = in.readLine()) != null) {
-					System.out.println(line);
 					controller.parse(line);
-					
+					System.out.println(line +" "+LocalDateTime.now().getHour() + LocalDateTime.now().getMinute() + LocalDateTime.now().getSecond());	
 				}
 				
 				pr.waitFor();
 				System.out.println("ok!");
 		
 				in.close();
-				System.exit(0);
 			} catch (IOException e) {
 				e.printStackTrace();
 			} catch (InterruptedException e) {
