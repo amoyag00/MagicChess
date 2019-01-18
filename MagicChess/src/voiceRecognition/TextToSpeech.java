@@ -27,7 +27,7 @@ public class TextToSpeech {
     try (TextToSpeechClient textToSpeechClient = TextToSpeechClient.create()) {
       // Set the text input to be synthesized
       SynthesisInput input = SynthesisInput.newBuilder()
-            .setText("Mongolín!")
+            .setText("Modo  dos jugadores seleccionado")
             .build();
 
       // Build the voice request, select the language code ("en-US") and the ssml voice gender
@@ -51,9 +51,9 @@ public class TextToSpeech {
       ByteString audioContents = response.getAudioContent();
 
       // Write the response to the output file.
-      try (OutputStream out = new FileOutputStream("output.mp3")) {
+      try (OutputStream out = new FileOutputStream("2player.mp3")) {
         out.write(audioContents.toByteArray());
-        System.out.println("Audio content written to file \"output.mp3\"");
+        System.out.println("Audio content written to file \"modoJuego.mp3\"");
       }
     }
   }

@@ -24,19 +24,21 @@ public class ArduinoController {
 	private final int BAUD_RATE=115200;
 	private Arduino arduino;
 	private int SIZE=8; //board number of squares
-	private final int SQUARE_MM=40;//milimmeters of each square
-	private int boardDistanceX;//distance in x from plotters (0,0) to boards (0,0)
-	private int boardDistanceY;//distance in y from plotters (0,0) to boards (0,0)
+	private final int SQUARE_MM=60;//milimmeters of each square
+	private int boardDistanceX=106;//distance in x from plotters (0,0) to boards (0,0)
+	private int boardDistanceY=50;//distance in y from plotters (0,0) to boards (0,0)
 	private int currentX;
 	private int currentY;
 	
 
 	public ArduinoController() {
 		this.arduino=new Arduino(this.portName,this.BAUD_RATE);
-		//this.connect();
+		this.connect();
 		this.currentX=1;
 		this.currentY=1;
 		moveToOrigin();
+		moveToBoardOrigin();
+		serialWrite("M280 P1 S20");
 		serialWrite("G91"); //Movements are relative to the last position
 		//serialWrite("M220 S100");//Setting speed
 	}
@@ -80,7 +82,8 @@ public class ArduinoController {
 		moveWithPiece(toX,toY);
 		delay();
 		release();
-		
+		serialWrite("M400");
+		delay();
 	}
 	
 	/**
@@ -136,7 +139,7 @@ public class ArduinoController {
 	 * Uses the servomotor to rise the magnet and grab the piece
 	 */
 	public void grab() {
-		String command1="M280 P1 S180";
+		String command1="M280 P1 S140";
 		String wait="M400"; //Makes arduino wait for the previous buffered commands to finish
 		serialWrite(wait);
 		serialWrite(command1);
@@ -146,7 +149,7 @@ public class ArduinoController {
 	 * Uses the servomotor to releases the piece grabbed with the magnet.
 	 */
 	public void release() {
-		String command="M280 P1 S0";
+		String command="M280 P1 S20";
 		String wait="M400"; //Makes arduino wait for the previous buffered commands to finish
 		serialWrite(wait);
 		serialWrite(command);
@@ -156,8 +159,10 @@ public class ArduinoController {
 	 * Moves to the origin of the board, the center of the square (A,1)
 	 */
 	public void moveToBoardOrigin() {
+		serialWrite("G90");
 		String command= "G1 X "+this.boardDistanceX+" Y"+this.boardDistanceY;
 		serialWrite(command);
+		serialWrite("G91");
 		this.currentX=1;
 		this.currentY=1;
 	}
@@ -190,6 +195,7 @@ public class ArduinoController {
 			moveWithoutPiece(8,1);
 			grab();
 			moveWithPiece(6,1);
+			release();
 		}else if(color.equals("b")) {
 			//Move king
 			moveWithoutPiece(5, 8);
@@ -201,6 +207,7 @@ public class ArduinoController {
 			moveWithoutPiece(8,8);
 			grab();
 			moveWithPiece(6,8);
+			release();
 		}
 	}
 	
@@ -220,6 +227,7 @@ public class ArduinoController {
 			moveWithoutPiece(1,1);
 			grab();
 			moveWithPiece(4,1);
+			release();
 		}else if(color.equals("b")) {
 			//Move king
 			moveWithoutPiece(5, 8);
@@ -231,6 +239,7 @@ public class ArduinoController {
 			moveWithoutPiece(1,8);
 			grab();
 			moveWithPiece(4,8);
+			release();
 		}
 		
 	}
@@ -251,6 +260,7 @@ public class ArduinoController {
 			moveWithoutPiece(6,1);
 			grab();
 			moveWithPiece(8,1);
+			release();
 		}else if(color.equals("b")) {
 			//Move king
 			moveWithoutPiece(7, 8);
@@ -262,6 +272,7 @@ public class ArduinoController {
 			moveWithoutPiece(6,8);
 			grab();
 			moveWithPiece(8,8);
+			release();
 		}
 	}
 	
@@ -282,6 +293,7 @@ public class ArduinoController {
 			moveWithoutPiece(4,1);
 			grab();
 			moveWithPiece(1,1);
+			release();
 		}else if(color.equals("b")) {
 			//Move king
 			moveWithoutPiece(3, 8);
@@ -293,6 +305,7 @@ public class ArduinoController {
 			moveWithoutPiece(4,8);
 			grab();
 			moveWithPiece(1,8);
+			release();
 		}
 		
 	}
@@ -435,6 +448,7 @@ public class ArduinoController {
 		serialWrite(command3);
 		serialWrite(command4);
 		serialWrite(command5);
+		release();
 		/*delay();
 		release();
 		delay();
@@ -448,7 +462,7 @@ public class ArduinoController {
 	 */
 	public void serialWrite(String command) {
 		System.out.println(command);
-		//this.arduino.serialWrite(command+"\n");
+		this.arduino.serialWrite(command+"\n");
 		
 	}
 	

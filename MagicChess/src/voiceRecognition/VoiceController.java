@@ -1,10 +1,14 @@
 package voiceRecognition;
 
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
 import chess.ChessController;
+import javazoom.jl.decoder.JavaLayerException;
+import javazoom.jl.player.Player;
 
 /**
  * This class translates the voice commands
@@ -55,10 +59,33 @@ public class VoiceController {
 	
 	public void parseGameMode(String gameMode) {
 		gameMode=gameMode.toLowerCase();
-		if(gameMode.contains("1 jugador")) {
+		if(gameMode.contains("un jugador")) {
 			this.chessController.setGameMode("1player");
-		}else if(gameMode.contains("2player")){
+			System.out.println("1 player mode set");
+			/*try {
+				FileInputStream fileInputStream= new FileInputStream("1player.mp3");
+				Player player = new Player(fileInputStream);
+				player.play();
+			} catch (FileNotFoundException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			} catch (JavaLayerException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}*/
+		}else if(gameMode.contains("2 jugadores")){
 			this.chessController.setGameMode("2player");
+			/*try {
+				FileInputStream fileInputStream= new FileInputStream("2player.mp3");
+				Player player = new Player(fileInputStream);
+				player.play();
+			} catch (FileNotFoundException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			} catch (JavaLayerException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}*/
 		}
 	}
 	/**
@@ -72,6 +99,7 @@ public class VoiceController {
 		String words []=possibleCommand.split(" ");
 		String command="notACommand";//Used only for testing
 		String color=this.chessController.getColor();
+		parseGameMode(possibleCommand);
 		if(possibleCommand.contains("enroque izquierda")) {
 			if(color.equals("w")) {
 				this.chessController.move("longW");
@@ -86,7 +114,7 @@ public class VoiceController {
 				this.chessController.move("longB");
 			}		
 			return;
-		}else if(possibleCommand.contains("deshacer deshacer deshacer")) {
+		}else if(possibleCommand.contains("deshacer deshacer")) {
 			this.chessController.undo();
 		}
 		if(findOriginX(words)) {

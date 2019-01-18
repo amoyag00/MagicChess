@@ -207,7 +207,7 @@ public class Stockfish {
 	 * Calculates the best move
 	 */
 	public Movement calculateMove() {
-		String bestMove=this.getBestMove(this.fen, 3000);
+		String bestMove=this.getBestMove(this.fen, 10000);
 		this.movements.push(bestMove);
 		this.sendCommand( "position startpos moves "+getMovements() );
 		this.sendCommand("d");

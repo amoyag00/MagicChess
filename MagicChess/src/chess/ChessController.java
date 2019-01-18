@@ -19,7 +19,7 @@ public class ChessController {
 		this.arduinoController=ArduinoController.getInstance();
 		this.color="w";
 		this.gameMode="";
-		//this.stockfish=new Stockfish();
+		this.stockfish=new Stockfish();
 		this.moves=new Stack<Movement>();
 	}
 	
@@ -81,19 +81,19 @@ public class ChessController {
 	public void moveCastling(String type) {
 
 		if (type.equals("longW")) {
-			//this.arduinoController.longCasteling("w");
+			this.arduinoController.longCasteling("w");
 			this.board.move(5,1,3,1);
 			this.board.move(1,1,4,1);
 		} else if (type.equals("shortW")) {
-			//this.arduinoController.shortCasteling("w");
+			this.arduinoController.shortCasteling("w");
 			this.board.move(5,1,7,1);
 			this.board.move(8,1,6,1);
 		} else if (type.equals("shortB")) {
-			//this.arduinoController.shortCasteling("b");
+			this.arduinoController.shortCasteling("b");
 			this.board.move(5,8,7,8);
 			this.board.move(8,8,6,8);
 		} else if (type.equals("longB")) {
-			//this.arduinoController.longCasteling("b");
+			this.arduinoController.longCasteling("b");
 			this.board.move(5,8,3,8);
 			this.board.move(1,8,4,8);
 		}
@@ -125,6 +125,7 @@ public class ChessController {
 			this.stockfish.move(originX,originY,destX,destY);
 
 			Movement sFishMove=stockfish.calculateMove();
+			System.out.println("Stockfish move: "+sFishMove.getOriginX()+" "+sFishMove.getOriginY()+" "+sFishMove.getDestX()+" "+sFishMove.getDestY());
 			if(sFishMove.isCastling()) {
 				moveCastling(sFishMove.getCastling());
 			}else {
