@@ -1,8 +1,9 @@
 # MagicChess
 Code used to develop a voice controlled chess, similar to Harry Potter's chess.
-Library used to perform the communications with arduino using java: https://github.com/HirdayGupta/Java-Arduino-Communication-Library
+[![Alt text](https://img.youtube.com/vi/XP4GMycFWes/0.jpg)](https://www.youtube.com/watch?v=XP4GMycFWes)
 
 # Getting Started
+Library used to perform the communications with arduino using java: https://github.com/HirdayGupta/Java-Arduino-Communication-Library
  ## Raspberry Pi3 configuration 
  In order to get the bluetooth server working in the raspberry follow the instructions explained by levifuksz here https://blog.iamlevi.net/2017/05/control-raspberry-pi-android-bluetooth/
  If you want to change the name of your bluetooth device you must created a file called /etc/machine-info that should have the following content:
