@@ -1,5 +1,6 @@
 # MagicChess
-Code used to develop a voice controlled chess, similar to Harry Potter's chess.
+Development a voice controlled chess, similar to Harry Potter's chess.
+Youtube video:
 [![Alt text](https://img.youtube.com/vi/XP4GMycFWes/0.jpg)](https://www.youtube.com/watch?v=XP4GMycFWes)
 
 # Getting Started
